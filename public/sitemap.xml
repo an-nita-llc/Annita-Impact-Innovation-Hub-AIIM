@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://aiim.annita.com/</loc><priority>1.0</priority></url>
+  <url><loc>https://aiim.annita.com/login</loc><priority>0.6</priority></url>
+  <url><loc>https://aiim.annita.com/signup</loc><priority>0.6</priority></url>
+  <url><loc>https://aiim.annita.com/deal-flow</loc><priority>0.8</priority></url>
+  <url><loc>https://aiim.annita.com/pipeline</loc><priority>0.8</priority></url>
+  <url><loc>https://aiim.annita.com/deal-rooms</loc><priority>0.8</priority></url>
+  <url><loc>https://aiim.annita.com/founders</loc><priority>0.7</priority></url>
+  <url><loc>https://aiim.annita.com/investors</loc><priority>0.7</priority></url>
+  <url><loc>https://aiim.annita.com/partners</loc><priority>0.7</priority></url>
+  <url><loc>https://aiim.annita.com/programs</loc><priority>0.7</priority></url>
+  <url><loc>https://aiim.annita.com/events</loc><priority>0.7</priority></url>
+  <url><loc>https://aiim.annita.com/analytics</loc><priority>0.6</priority></url>
+  <url><loc>https://aiim.annita.com/search</loc><priority>0.6</priority></url>
+  <url><loc>https://aiim.annita.com/help</loc><priority>0.5</priority></url>
+</urlset

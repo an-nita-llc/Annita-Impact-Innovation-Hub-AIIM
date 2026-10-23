@@ -1,0 +1,292 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --surface: #ffffff;
+  --muted: #f1f5f9;
+  --muted-foreground: #475569;
+  --border: #e2e8f0;
+  --font-geist-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-geist-mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-danger: #b91c1c;
+  --color-annita-navy-50: #eef3f9;
+  --color-annita-navy-100: #d9e4f1;
+  --color-annita-navy-200: #b3c9e2;
+  --color-annita-navy-600: #0b4d8f;
+  --color-annita-navy-700: #084074;
+  --color-annita-navy-800: #063058;
+  --color-annita-navy-900: #042441;
+  --color-annita-navy-950: #02182c;
+  --color-annita-navy: #003868;
+  --color-annita-green: #00a651;
+  --color-annita-green-dark: #007a3d;
+  --color-annita-purple: #4b0080;
+  --color-annita-orange: #f26522;
+  --color-brand-50: #fff7ed;
+  --color-brand-100: #ffedd5;
+  --color-brand-200: #fed7aa;
+  --color-brand-300: #fdba74;
+  --color-brand-400: #fb923c;
+  --color-brand-500: #f97316;
+  --color-brand-600: #ea580c;
+  --color-brand-700: #c2410c;
+  --color-brand-800: #9a3412;
+  --color-brand-900: #7c2d12;
+  --color-brand-950: #431407;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* ---------------------------------------------------------------- */
+  /* Fluid type scale (Utopia-style clamps, 360px → 1280px viewports).  */
+  /* rem-based min/max keeps user font settings and zoom working; the  */
+  /* vw middle interpolates smoothly with zero breakpoints. Micro type */
+  /* (xs/sm) stays fixed — fluid microcopy harms readability.          */
+  /* ---------------------------------------------------------------- */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: clamp(1rem, 0.9755rem + 0.0068vw, 1.0625rem);
+  --text-base--line-height: 1.5rem;
+  --text-lg: clamp(1.0625rem, 0.9891rem + 0.0204vw, 1.25rem);
+  --text-lg--line-height: 1.75rem;
+  --text-xl: clamp(1.125rem, 0.9783rem + 0.0408vw, 1.5rem);
+  --text-xl--line-height: 1.75rem;
+  --text-2xl: clamp(1.375rem, 1.1304rem + 0.0679vw, 2rem);
+  --text-2xl--line-height: 2.25rem;
+  --text-3xl: clamp(1.625rem, 1.2826rem + 0.0951vw, 2.5rem);
+  --text-3xl--line-height: 2.5rem;
+  --text-4xl: clamp(2rem, 1.511rem + 0.1359vw, 3.25rem);
+  --text-4xl--line-height: 2.75rem;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* ------------------------------------------------------------------ */
+/* Annita One premium form controls. Native <select> elements are used */
+/* across every module, so the closed control is styled globally here */
+/* (gradient border on focus, custom chevron, 44px touch target) while */
+/* the OS-rendered option list gets the navy treatment below.         */
+/* ------------------------------------------------------------------ */
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 2.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23c2410c' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding: 0.625rem 2.5rem 0.625rem 0.875rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--foreground);
+  cursor: pointer;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    background-color 150ms ease;
+}
+
+select:hover {
+  border-color: var(--color-brand-300);
+}
+
+select:focus-visible {
+  outline: none;
+  border-color: var(--color-brand-600);
+  box-shadow:
+    0 0 0 1px var(--color-brand-600),
+    0 0 0 4px rgb(234 88 12 / 0.15);
+}
+
+select:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Every app select carries Tailwind utilities (single-class            */
+/* specificity), so this one-class-higher rule guarantees chevron      */
+/* clearance and control height no matter the page.                    */
+select[class] {
+  min-height: 2.75rem;
+  padding-right: 2.5rem;
+  border-radius: 0.75rem;
+}
+
+/* OS-rendered option lists: deep navy with white text (Chromium +      */
+/* Firefox honor these; Safari falls back to the system list).          */
+select option,
+select optgroup {
+  background-color: #042441;
+  color: #ffffff;
+}
+
+select option:checked {
+  background-color: #0b4d8f;
+  color: #ffffff;
+}
+
+select option:disabled {
+  color: #93a4b8;
+}
+
+/* ------------------------------------------------------------------ */
+/* CSP-safe dynamic styling (no inline style attributes anywhere).     */
+/* Progress bars use 5%-step width utilities — visually identical on   */
+/* 8px bars, zero Content-Security-Policy violations.                  */
+/* ------------------------------------------------------------------ */
+
+.bg-grid-faint {
+  background-image:
+    linear-gradient(#ffffff 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.w-pct-0 { width: 0%; }
+.w-pct-5 { width: 5%; }
+.w-pct-10 { width: 10%; }
+.w-pct-15 { width: 15%; }
+.w-pct-20 { width: 20%; }
+.w-pct-25 { width: 25%; }
+.w-pct-30 { width: 30%; }
+.w-pct-35 { width: 35%; }
+.w-pct-40 { width: 40%; }
+.w-pct-45 { width: 45%; }
+.w-pct-50 { width: 50%; }
+.w-pct-55 { width: 55%; }
+.w-pct-60 { width: 60%; }
+.w-pct-65 { width: 65%; }
+.w-pct-70 { width: 70%; }
+.w-pct-75 { width: 75%; }
+.w-pct-80 { width: 80%; }
+.w-pct-85 { width: 85%; }
+.w-pct-90 { width: 90%; }
+.w-pct-95 { width: 95%; }
+.w-pct-100 { width: 100%; }
+
+/* ------------------------------------------------------------------ */
+/* Modal + sheet motion (reduced-motion safe).                         */
+/* ------------------------------------------------------------------ */
+
+@keyframes annita-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes annita-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-overlay-in {
+  animation: annita-overlay-in 180ms ease-out;
+}
+
+.animate-modal-in {
+  animation: annita-modal-in 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-overlay-in,
+  .animate-modal-in {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Button system. One anatomy for every action in the app: 44px        */
+/* targets, semibold small type, consistent radius + focus ring.       */
+/* Placement convention (not encoded here, enforced in review):        */
+/* primary action top-right on desktop / full-width stacked on mobile, */
+/* destructive actions always behind an explicit Modal confirm.        */
+/* ------------------------------------------------------------------ */
+
+@layer components {
+  .btn {
+    @apply inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-lg px-5 text-center text-sm font-semibold transition-colors select-none disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn:focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-600;
+  }
+  .btn-primary {
+    @apply bg-brand-600 text-white hover:bg-brand-700;
+  }
+  .btn-secondary {
+    @apply border border-border bg-surface text-foreground hover:bg-muted;
+  }
+  .btn-danger {
+    @apply bg-danger text-white hover:brightness-110;
+  }
+  .btn-danger-outline {
+    @apply border border-danger/40 bg-transparent text-danger hover:bg-danger/10;
+  }
+  .btn-ghost {
+    @apply bg-transparent text-brand-700 hover:bg-brand-50;
+  }
+  .btn-sm {
+    @apply min-h-10 px-3 text-xs;
+  }
+  .btn-lg {
+    @apply min-h-12 px-6 text-sm;
+  }
+  .btn-block {
+    @apply w-full;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* ID badge printing: isolate the badge sheet, hide app chrome.       */
+/* ------------------------------------------------------------------ */
+
+@page {
+  margin: 12mm;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .badge-sheet,
+  .badge-sheet * {
+    visibility: visible;
+  }
+  .badge-sheet {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: none;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

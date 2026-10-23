@@ -1,0 +1,7 @@
+{
+  "name": "Annita Impact-Innovation Hub",
+  "description": "Annita Impact-Innovation Hub (AIIM), under the Annita Group, is the premier ecosystem builder for MSMEs, startups, and professionals. Enter Raw. Leave Funded.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
