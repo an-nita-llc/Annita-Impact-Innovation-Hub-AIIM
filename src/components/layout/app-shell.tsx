@@ -43,6 +43,8 @@ const PAGE_NAMES: Record<string, string> = {
   "/deal-flow": "Deal Flow",
   "/pipeline": "Pipeline",
   "/deal-rooms": "Deal Rooms",
+  "/valuation": "Valuation Engine",
+  "/innovation-map": "African Innovation Map",
   "/founders": "Founders",
   "/investors": "Investors",
   "/partners": "Partners",

@@ -4,8 +4,10 @@ import { useAuth } from "@/context/AuthContext";
 import {
   BarChart3,
   Briefcase,
+  Calculator,
   CalendarClock,
   FolderOpen,
+  Globe,
   Home,
   LogOut,
   MessageSquare,
@@ -29,10 +31,12 @@ const mainNav = [
   { href: "/deal-flow", label: "Deal Flow", icon: TrendingUp },
   { href: "/pipeline", label: "Pipeline", icon: BarChart3 },
   { href: "/deal-rooms", label: "Deal Rooms", icon: Briefcase },
+  { href: "/valuation", label: "Valuation Engine", icon: Calculator, badge: "New" },
   { href: "/ask-aiim", label: "Ask AIIM", icon: Sparkles, badge: "AI" },
 ];
 
 const ecosystemNav = [
+  { href: "/innovation-map", label: "Innovation Map", icon: Globe },
   { href: "/founders", label: "Founders", icon: Users },
   { href: "/investors", label: "Investors", icon: Users },
   { href: "/partners", label: "Partners", icon: Users },

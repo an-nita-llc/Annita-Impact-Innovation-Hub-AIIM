@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { AppShell } from "./components/layout/app-shell";
 import { Seo } from "./components/seo";
+
 const Login = lazy(() => import("./pages/Login"));
 const Loader = lazy(() => import("./pages/Loader"));
 const Register = lazy(() => import("./pages/Register"));
@@ -44,6 +45,9 @@ const Billing = lazy(() => import("./pages/Billing"));
 const Integrations = lazy(() => import("./pages/Integrations"));
 const TrustCenter = lazy(() => import("./pages/TrustCenter"));
 const StatusPage = lazy(() => import("./pages/StatusPage"));
+const ValuationCalculator = lazy(() => import("./pages/ValuationCalculator"));
+const InnovationMap = lazy(() => import("./pages/InnovationMap"));
+
 import { moreNavItems } from "./components/navigation/nav-items";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -57,11 +61,6 @@ const PublicOnlyRoute = ({ children }: { children: React.ReactNode }) => {
   if (user) return <Navigate to="/dashboard" replace />;
   return <>{children}</>;
 };
-
-function HomeRedirect() {
-  const { user } = useAuth();
-  return <Navigate to={user ? "/dashboard" : "/login"} replace />;
-}
 
 const Page = ({ children, title = "Workspace", description = "AI-powered impact and innovation ecosystem for founders, investors, and partners." }: { children: React.ReactNode; title?: string; description?: string }) => (
   <ProtectedRoute>
@@ -94,6 +93,8 @@ export default function App() {
             <Route path="/deal-flow" element={<Page title="Deal Flow" description="AI-matched founders, investors, and partners with explainable scores."><DealFlow /></Page>} />
             <Route path="/pipeline" element={<Page><Pipeline /></Page>} />
             <Route path="/deal-rooms" element={<Page><DealRooms /></Page>} />
+            <Route path="/valuation" element={<Page title="Valuation Engine" description="Multi-methodology startup valuation engine."><ValuationCalculator /></Page>} />
+            <Route path="/innovation-map" element={<Page title="African Innovation Map" description="Pan-African ecosystem map of active funding rounds and hubs."><InnovationMap /></Page>} />
             <Route path="/founders" element={<Page><Founders /></Page>} />
             <Route path="/investors" element={<Page><Investors /></Page>} />
             <Route path="/partners" element={<Page><Partners /></Page>} />

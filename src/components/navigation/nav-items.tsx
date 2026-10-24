@@ -4,11 +4,12 @@ import {
   Bell,
   BookOpen,
   Briefcase,
+  Calculator,
   CalendarClock,
   ClipboardList,
   CreditCard,
-  FileText,
   FolderOpen,
+  Globe,
   History,
   Home,
   MessageSquare,
@@ -39,6 +40,8 @@ export const mobileNavItems: NavItem[] = [
 ];
 
 export const moreNavItems: NavItem[] = [
+  { href: "/valuation", label: "Valuation Engine", icon: Calculator },
+  { href: "/innovation-map", label: "African Innovation Map", icon: Globe },
   { href: "/search", label: "Search", icon: Search },
   { href: "/messages", label: "Messages", icon: MessageSquare },
   { href: "/programs", label: "Programs", icon: Rocket },
@@ -76,6 +79,8 @@ export const sidebarNavItems: NavItem[] = [
   { href: "/deal-flow", label: "Deal Flow", icon: TrendingUp },
   { href: "/pipeline", label: "Pipeline", icon: BarChart3 },
   { href: "/deal-rooms", label: "Deal Rooms", icon: Briefcase },
+  { href: "/valuation", label: "Valuation Engine", icon: Calculator },
+  { href: "/innovation-map", label: "Innovation Map", icon: Globe },
   { href: "/founders", label: "Founders", icon: Users },
   { href: "/investors", label: "Investors", icon: Users },
   { href: "/partners", label: "Partners", icon: Users },
