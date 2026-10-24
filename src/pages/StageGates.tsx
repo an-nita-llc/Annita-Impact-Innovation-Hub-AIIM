@@ -2,7 +2,7 @@ import { CheckCircle2, ChevronRight, Shield, ShieldAlert, Sparkles } from "lucid
 
 const GATES = [
   { id: "g1", name: "Idea Captured & De-duplicated", owner: "Submitter", sla: "Instant", status: "Complete" },
-  { id: "g2", name: "Strategic Alignment & AI Scorecard", owner: "AIIM Copilot", sla: "Instant", status: "Complete" },
+  { id: "g2", name: "Strategic Alignment & AI Scorecard", owner: "AIIM AI", sla: "Instant", status: "Complete" },
   { id: "g3", name: "Expert Committee Review", owner: "3 Reviewers", sla: "5 Days", status: "In Progress" },
   { id: "g4", name: "Diligence Data Room Audit", owner: "Advisory Panel", sla: "3 Days", status: "Pending" },
   { id: "g5", name: "Stage Gate Review (Go / No-Go)", owner: "Investment Leadership", sla: "2 Days", status: "Pending" },

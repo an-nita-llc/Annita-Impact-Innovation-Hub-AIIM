@@ -126,7 +126,7 @@ export default function DealRooms() {
 
                   <div className="mt-4 flex flex-col sm:flex-row gap-2">
                     <Link to="/documents" className="btn btn-primary btn-sm min-h-[44px] w-full sm:w-auto">
-                      <Sparkles className="size-3.5" /> Ask Room AI Copilot
+                      <Sparkles className="size-3.5" /> Ask Room AI
                     </Link>
                     <button type="button" className="btn btn-secondary btn-sm min-h-[44px] w-full sm:w-auto">Manage Access</button>
                   </div>

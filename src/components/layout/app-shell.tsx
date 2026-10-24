@@ -56,7 +56,7 @@ const PAGE_NAMES: Record<string, string> = {
   "/notifications": "Notifications",
   "/settings": "Settings",
   "/search": "Search",
-  "/ask-aiim": "Ask AIIM",
+  "/ask-aiim": "AIIM AI",
   "/pilots": "Pilots",
   "/evaluations": "Evaluations",
   "/onboarding": "Onboarding",
@@ -73,7 +73,6 @@ const PAGE_NAMES: Record<string, string> = {
   "/integrations": "Integrations & API",
   "/trust": "Trust Center",
   "/status": "Status Page",
-  "/more": "More Modules",
 };
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -118,13 +117,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <kbd className="rounded border border-border bg-surface px-1.5 py-0.5 text-[10px] font-semibold">⌘K</kbd>
           </Link>
 
-          {/* Ask AIIM Pill */}
+          {/* AIIM AI Pill */}
           <Link
             to="/ask-aiim"
             className="flex h-9 items-center gap-1.5 rounded-xl bg-brand-50 border border-brand-200/80 px-3 text-xs font-bold text-brand-700 transition hover:bg-brand-100/80"
           >
             <Sparkles className="size-3.5" />
-            <span>Ask AIIM</span>
+            <span>AIIM AI</span>
           </Link>
 
           {/* Notifications Link */}
@@ -154,32 +153,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      {/* Mobile Sticky Top Header */}
+      {/* Mobile Sticky Top Header: Logo on Left, Notification Bell + Hamburger Menu on Right */}
       <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border/80 bg-surface/95 px-4 backdrop-blur-md md:hidden">
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => setDrawerOpen(true)}
-            aria-label="Open navigation menu"
-            className="flex size-9 items-center justify-center rounded-xl border border-border/80 bg-background/80 text-foreground transition active:scale-95"
-          >
-            <Menu className="size-5" />
-          </button>
-          <Link to="/dashboard" className="flex items-center gap-2" aria-label="AIIM home">
-            <LogoMark size="sm" full={false} />
-            <span className="text-base font-bold tracking-tight text-annita-navy-900">AIIM</span>
-          </Link>
-        </div>
+        {/* Left Side: Brand Logo */}
+        <Link to="/dashboard" className="flex items-center gap-2" aria-label="AIIM home">
+          <LogoMark size="sm" full={false} />
+          <span className="text-base font-bold tracking-tight text-annita-navy-900">AIIM</span>
+        </Link>
 
+        {/* Right Side: Notification Bell + Hamburger Menu Button */}
         <div className="flex items-center gap-2">
-          <Link
-            to="/ask-aiim"
-            className="flex size-9 items-center justify-center rounded-xl bg-brand-50 border border-brand-200 text-brand-700"
-            aria-label="Ask AIIM"
-          >
-            <Sparkles className="size-4" />
-          </Link>
-
           <Link
             to="/notifications"
             className="relative flex size-9 items-center justify-center rounded-xl border border-border/80 bg-background/80 text-muted-foreground"
@@ -192,6 +175,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               </span>
             ) : null}
           </Link>
+
+          <button
+            type="button"
+            onClick={() => setDrawerOpen(true)}
+            aria-label="Open navigation menu"
+            className="flex size-9 items-center justify-center rounded-xl border border-border/80 bg-background/80 text-foreground transition active:scale-95"
+          >
+            <Menu className="size-5" />
+          </button>
         </div>
       </header>
 
@@ -205,7 +197,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           />
 
           {/* Drawer Sidebar */}
-          <aside className="fixed inset-y-0 left-0 flex w-80 max-w-[85vw] flex-col border-r border-border bg-surface shadow-2xl animate-modal-in">
+          <aside className="fixed inset-y-0 right-0 flex w-80 max-w-[85vw] flex-col border-l border-border bg-surface shadow-2xl animate-modal-in">
             {/* Drawer Header */}
             <div className="flex h-16 items-center justify-between border-b border-border/80 px-5 bg-surface">
               <Link to="/dashboard" onClick={() => setDrawerOpen(false)} className="flex items-center gap-2.5">
@@ -250,7 +242,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                     { href: "/deal-flow", label: "Deal Flow", icon: TrendingUp },
                     { href: "/pipeline", label: "Pipeline", icon: BarChart3 },
                     { href: "/deal-rooms", label: "Deal Rooms", icon: Briefcase },
-                    { href: "/ask-aiim", label: "Ask AIIM Copilot", icon: Sparkles },
+                    { href: "/ask-aiim", label: "AIIM AI", icon: Sparkles },
                   ].map((item) => {
                     const active = isActive(pathname, item.href);
                     const Icon = item.icon;

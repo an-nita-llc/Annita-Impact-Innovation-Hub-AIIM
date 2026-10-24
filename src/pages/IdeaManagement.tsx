@@ -106,7 +106,7 @@ export default function IdeaManagement() {
 
             <div className="mt-4 rounded-xl bg-brand-50 p-3 border border-brand-200 text-xs text-brand-800 flex items-start gap-2">
               <Sparkles className="size-4 shrink-0 mt-0.5 text-brand-600" />
-              <span>AI copilot coaches submitters, checks duplicates, and drafts stage gate summaries.</span>
+              <span>AIIM AI coaches submitters, checks duplicates, and drafts stage gate summaries.</span>
             </div>
           </div>
 

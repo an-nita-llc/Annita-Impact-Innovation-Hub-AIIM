@@ -32,7 +32,7 @@ const mainNav = [
   { href: "/pipeline", label: "Pipeline", icon: BarChart3 },
   { href: "/deal-rooms", label: "Deal Rooms", icon: Briefcase },
   { href: "/valuation", label: "Valuation Engine", icon: Calculator, badge: "New" },
-  { href: "/ask-aiim", label: "Ask AIIM", icon: Sparkles, badge: "AI" },
+  { href: "/ask-aiim", label: "AIIM AI", icon: Sparkles, badge: "AI" },
 ];
 
 const ecosystemNav = [

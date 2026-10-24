@@ -91,7 +91,7 @@ export default function Dashboard() {
                 <Zap className="size-3.5" /> View AI Matches
               </Link>
               <Link to="/ask-aiim" className="btn btn-secondary btn-sm w-full sm:w-auto min-h-[44px]">
-                <Sparkles className="size-3.5" /> Ask AIIM Copilot
+                <Sparkles className="size-3.5" /> AIIM AI
               </Link>
             </div>
           </div>
@@ -131,7 +131,7 @@ export default function Dashboard() {
             { href: "/deal-rooms", title: "Deal Rooms", desc: "Secure collaboration, NDA-gated data rooms, and diligence Q&A.", icon: Briefcase, color: "text-blue-600 bg-blue-50", badge: "Secure" },
             { href: "/programs", title: "Programs & Cohorts", desc: "Accelerators, mentoring cohorts, and university innovation labs.", icon: Rocket, color: "text-amber-600 bg-amber-50", badge: "Cohorts" },
             { href: "/analytics", title: "Analytics & Funnels", desc: "Conversion metrics, portfolio insights, and KPI progress tracking.", icon: BarChart3, color: "text-indigo-600 bg-indigo-50", badge: "Metrics" },
-            { href: "/ask-aiim", title: "Ask AIIM Copilot", desc: "Conversational AI assistant for market analysis and due diligence.", icon: Zap, color: "text-brand-600 bg-brand-50", badge: "Gemini 2.0" },
+            { href: "/ask-aiim", title: "AIIM AI Intelligence", desc: "Conversational AI assistant for market analysis and due diligence.", icon: Zap, color: "text-brand-600 bg-brand-50", badge: "AIIM AI" },
           ].map((card) => {
             const Icon = card.icon;
             return (
@@ -199,12 +199,12 @@ export default function Dashboard() {
               <h3 className="text-xs sm:text-sm font-bold text-foreground">AI Intelligence Brief</h3>
             </div>
             <p className="mt-3 text-xs text-muted-foreground leading-relaxed">
-              Gemini analyzed 32 new startup profiles this week. Climate tech and Agtech remain top investor focus areas across the West African hub.
+              AIIM AI analyzed 32 new startup profiles this week. Climate tech and Agtech remain top investor focus areas across the West African hub.
             </p>
           </div>
           <div className="mt-4 pt-3 border-t border-border/60">
             <Link to="/ask-aiim" className="btn btn-primary btn-sm w-full min-h-[44px]">
-              <Sparkles className="size-3.5" /> Ask AIIM Copilot
+              <Sparkles className="size-3.5" /> AIIM AI
             </Link>
           </div>
         </div>

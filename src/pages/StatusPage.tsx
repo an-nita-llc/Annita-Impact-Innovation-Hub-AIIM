@@ -3,7 +3,7 @@ import { Activity, CheckCircle2 } from "lucide-react";
 const SERVICES = [
   { name: "Web Dashboard & App Shell", status: "Operational", uptime: "99.98%" },
   { name: "Public REST API Engine", status: "Operational", uptime: "99.99%" },
-  { name: "AI Match & Gemini Copilot", status: "Operational", uptime: "99.90%" },
+  { name: "AI Match & AIIM AI Engine", status: "Operational", uptime: "99.90%" },
   { name: "Deal Room Data Storage", status: "Operational", uptime: "99.95%" },
   { name: "Email & SMS Notifications", status: "Operational", uptime: "99.97%" },
 ];
