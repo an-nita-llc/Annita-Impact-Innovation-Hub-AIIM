@@ -188,6 +188,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, [pathname]);
 
   const currentPageTitle = PAGE_NAMES[pathname] || "Workspace";
+  const isUnconstrainedFullPage = pathname === "/ask-aiim" || pathname === "/messages";
 
   return (
     <div className="min-h-screen bg-background text-foreground md:pl-64 pb-20 md:pb-0 font-sans antialiased">
@@ -430,8 +431,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       ) : null}
 
-      {/* Main Page Body Container */}
-      <main id="main-content" className="relative z-10 w-full px-3.5 py-4 sm:px-6 md:px-8 max-w-7xl mx-auto">
+      {/* Main Page Body Container: Unconstrained for AI & Full Page Views */}
+      <main
+        id="main-content"
+        className={`relative z-10 w-full ${
+          isUnconstrainedFullPage
+            ? "p-0 max-w-none"
+            : "px-3.5 py-4 sm:px-6 md:px-8 max-w-7xl mx-auto"
+        }`}
+      >
         {children}
       </main>
 
