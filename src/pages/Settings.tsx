@@ -1,63 +1,85 @@
 import { useState } from "react";
 import { Lock, Mail, Shield, User } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Settings() {
+  const { user } = useAuth();
   const [tab, setTab] = useState<"profile" | "security" | "notifications" | "integrations">("profile");
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Settings</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Profile, security, preferences, and integrations.</p>
+    <div className="flex flex-col gap-5 sm:gap-6 w-full">
+      <div className="border-b border-border/60 pb-4">
+        <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground">Account & Organization Settings</h1>
+        <p className="mt-0.5 text-xs text-muted-foreground">Manage profile, passkeys, multi-factor security, and platform notifications.</p>
       </div>
+
+      {/* Touch Friendly Tabs */}
       <div className="flex flex-wrap gap-2">
-        {(
-          [
-            { id: "profile", label: "Profile", icon: User },
-            { id: "security", label: "Security", icon: Shield },
-            { id: "notifications", label: "Notifications", icon: Mail },
-            { id: "integrations", label: "Integrations", icon: Lock },
-          ] as const
-        ).map((t) => {
+        {[
+          { id: "profile", label: "Profile & Org", icon: User },
+          { id: "security", label: "Security & Passkeys", icon: Shield },
+          { id: "notifications", label: "Notifications", icon: Mail },
+          { id: "integrations", label: "Connected Apps", icon: Lock },
+        ].map((t) => {
           const Icon = t.icon;
+          const active = tab === t.id;
           return (
-            <button key={t.id} type="button" onClick={() => setTab(t.id)} className={`flex min-h-10 items-center gap-2 rounded-lg px-4 text-sm font-medium transition ${tab === t.id ? "bg-brand-600 text-white" : "border border-border bg-surface text-muted-foreground hover:text-foreground"}`}>
-              <Icon aria-hidden="true" className="size-4" /> {t.label}
+            <button
+              key={t.id}
+              type="button"
+              onClick={() => setTab(t.id as any)}
+              className={`flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-xs font-bold transition-all active:scale-[0.98] ${
+                active ? "bg-brand-600 text-white shadow-xs" : "border border-border/80 bg-surface text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Icon className="size-3.5" />
+              <span>{t.label}</span>
             </button>
           );
         })}
       </div>
 
-      <div className="glass-card">
+      {/* Tab Panel */}
+      <div className="glass-card w-full">
         {tab === "profile" ? (
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Display name" value="Amina Diallo" />
-            <Field label="Email" value="amina@solara.com" />
-            <Field label="Role" value="Founder" />
-            <Field label="Organization" value="Solara climate OS" />
+            <Field label="Display Name" value={user?.name || "Amina Diallo"} />
+            <Field label="Email Address" value={user?.email || "user@aiim.com"} />
+            <Field label="User Role" value={user?.role || "Founder"} />
+            <Field label="Organization" value={user?.firmName || "Solara Climate OS"} />
+            <div className="sm:col-span-2 pt-2">
+              <button type="button" className="btn btn-primary btn-sm min-h-[44px] w-full sm:w-auto">Save Profile Changes</button>
+            </div>
           </div>
         ) : null}
+
         {tab === "security" ? (
-          <div className="flex flex-col gap-3 text-sm text-muted-foreground">
-            <p>Passkeys · 2 devices enrolled</p>
-            <p>Two‑factor authentication · Enabled</p>
-            <p>Sessions · 3 active</p>
-            <button type="button" className="btn btn-secondary btn-sm w-fit">Manage security</button>
+          <div className="space-y-3.5 text-xs">
+            <div className="p-3.5 rounded-xl border border-border bg-background">
+              <p className="font-bold text-foreground">Passkeys & Security Keys</p>
+              <p className="text-muted-foreground mt-0.5">2 biometric passkey devices currently registered for passwordless sign-in.</p>
+            </div>
+            <div className="p-3.5 rounded-xl border border-border bg-background">
+              <p className="font-bold text-foreground">Two-Factor Authentication (2FA)</p>
+              <p className="text-emerald-700 font-bold mt-0.5">✓ Enabled via Authenticator App</p>
+            </div>
+            <button type="button" className="btn btn-secondary btn-sm min-h-[44px] w-full sm:w-auto">Manage Security Devices</button>
           </div>
         ) : null}
+
         {tab === "notifications" ? (
-          <div className="flex flex-col gap-3 text-sm text-muted-foreground">
-            <p>Email digest · Weekly</p>
-            <p>In‑app alerts · Matched, messages, deal room updates</p>
-            <button type="button" className="btn btn-secondary btn-sm w-fit">Customize</button>
+          <div className="space-y-3 text-xs">
+            <p className="font-bold text-foreground">Email Digest Frequency</p>
+            <p className="text-muted-foreground">Weekly activity digest & real-time deal room alerts enabled.</p>
+            <button type="button" className="btn btn-secondary btn-sm min-h-[44px] w-full sm:w-auto">Customize Preferences</button>
           </div>
         ) : null}
+
         {tab === "integrations" ? (
-          <div className="flex flex-col gap-3 text-sm text-muted-foreground">
-            <p>Google Calendar · Connected</p>
-            <p>HubSpot CRM · Not connected</p>
-            <p>DocuSign · Connected</p>
-            <button type="button" className="btn btn-secondary btn-sm w-fit">Connect more</button>
+          <div className="space-y-3 text-xs">
+            <p className="font-bold text-foreground">Connected Integrations</p>
+            <p className="text-muted-foreground">Google Calendar and DocuSign connected to account.</p>
+            <button type="button" className="btn btn-secondary btn-sm min-h-[44px] w-full sm:w-auto">Configure Apps</button>
           </div>
         ) : null}
       </div>
@@ -68,8 +90,11 @@ export default function Settings() {
 function Field({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-xs font-medium text-muted-foreground">{label}</label>
-      <input defaultValue={value} className="min-h-11 rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-brand-500" />
+      <label className="text-xs font-bold text-muted-foreground">{label}</label>
+      <input
+        defaultValue={value}
+        className="h-10 rounded-xl border border-border/80 bg-background px-3 text-xs font-semibold text-foreground outline-none focus:border-brand-500"
+      />
     </div>
   );
 }

@@ -1,0 +1,21 @@
+services:
+  # Static Site Deployment (Recommended for Render)
+  - type: web
+    name: aiim-impact-innovation-hub-static
+    env: static
+    buildCommand: npm run build
+    staticPublishPath: ./dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # Node Web Service Alternative
+  - type: web
+    name: aiim-impact-innovation-hub-service
+    env: node
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production

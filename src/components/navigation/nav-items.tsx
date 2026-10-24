@@ -1,10 +1,12 @@
 import {
+  Activity,
   BarChart3,
   Bell,
   BookOpen,
   Briefcase,
   CalendarClock,
   ClipboardList,
+  CreditCard,
   FileText,
   FolderOpen,
   History,
@@ -62,6 +64,11 @@ export const moreNavItems: NavItem[] = [
   { href: "/challenges", label: "Open Innovation", icon: Rocket },
   { href: "/roi", label: "ROI & FP&A", icon: TrendingUp },
   { href: "/stage-gates", label: "Stage-Gate Governance", icon: Shield },
+  { href: "/audit-log", label: "Audit Log", icon: History },
+  { href: "/billing", label: "Billing & Usage", icon: CreditCard },
+  { href: "/integrations", label: "Integrations & API", icon: Zap },
+  { href: "/trust", label: "Trust Center", icon: ShieldCheck },
+  { href: "/status", label: "Status", icon: Activity },
 ];
 
 export const sidebarNavItems: NavItem[] = [

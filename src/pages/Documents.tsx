@@ -1,70 +1,130 @@
-import { FileText, FolderOpen, Upload, Download, Search } from "lucide-react";
 import { useState } from "react";
+import { Download, FileText, Search, Upload } from "lucide-react";
 
-type Doc = { id: string; name: string; category: string; owner: string; size: string; updated: string };
+type Doc = {
+  id: string;
+  name: string;
+  category: string;
+  owner: string;
+  size: string;
+  updated: string;
+};
+
 const DOCS: Doc[] = [
-  { id: "dc1", name: "Pitch Deck — Solara v4", category: "Pitch", owner: "Solara", size: "4.2MB", updated: "1d" },
-  { id: "dc2", name: "Term Sheet Template (SAFE)", category: "Legal", owner: "Platform", size: "180KB", updated: "2w" },
-  { id: "dc3", name: "Q3 Financials — MediBridge", category: "Financials", owner: "MediBridge", size: "1.1MB", updated: "5d" },
-  { id: "dc4", name: "Due Diligence Checklist", category: "Toolkit", owner: "Platform", size: "260KB", updated: "3w" },
-  { id: "dc5", name: "NDAs & confidentiality", category: "Legal", owner: "Platform", size: "90KB", updated: "1m" },
+  { id: "dc1", name: "Pitch Deck — Solara Climate OS v4", category: "Pitch", owner: "Solara Team", size: "4.2 MB", updated: "1d ago" },
+  { id: "dc2", name: "Standard SAFE Term Sheet Template", category: "Legal", owner: "AIIM Legal", size: "180 KB", updated: "2w ago" },
+  { id: "dc3", name: "Q3 Audited Financials — MediBridge", category: "Financials", owner: "MediBridge", size: "1.1 MB", updated: "5d ago" },
+  { id: "dc4", name: "Institutional Due Diligence Checklist", category: "Toolkit", owner: "Platform", size: "260 KB", updated: "3w ago" },
+  { id: "dc5", name: "Ecosystem Mutual NDA Template", category: "Legal", owner: "Platform", size: "90 KB", updated: "1m ago" },
 ];
 
 export default function Documents() {
   const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("All");
-  const cats = ["All", "Pitch", "Financials", "Legal", "Toolkit"];
-  const filtered = DOCS.filter((d) => (category === "All" || d.category === category) && (!query || d.name.toLowerCase().includes(query.toLowerCase())));
+  const [categoryFilter, setCategoryFilter] = useState("All");
+
+  const categories = ["All", "Pitch", "Financials", "Legal", "Toolkit"];
+
+  const filtered = DOCS.filter(
+    (d) =>
+      (categoryFilter === "All" || d.category === categoryFilter) &&
+      (!query || d.name.toLowerCase().includes(query.toLowerCase())),
+  );
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
+    <div className="flex flex-col gap-5 sm:gap-6 w-full">
+      {/* Header Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border/60 pb-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Documents</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Shared templates, resources, and public knowledge.</p>
+          <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground">Document Repository</h1>
+          <p className="mt-0.5 text-xs text-muted-foreground">
+            Shared templates, diligence toolkits, legal SAFE agreement formats, and public resources.
+          </p>
         </div>
-        <button type="button" className="btn btn-primary">
-          <Upload aria-hidden="true" className="size-4" /> Upload
+        <button type="button" className="btn btn-primary btn-sm min-h-[44px] w-full sm:w-auto">
+          <Upload className="size-4" /> Upload Document
         </button>
       </div>
-      <div className="flex flex-wrap gap-3">
-        <div className="relative flex-1 min-w-[220px] max-w-sm">
-          <Search aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search documents…" className="min-h-11 w-full rounded-xl border border-border bg-surface pl-9 pr-3 text-sm outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10" />
+
+      {/* Controls */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="relative flex-1 w-full sm:max-w-sm">
+          <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search documents by name..."
+            className="h-10 w-full rounded-xl border border-border/80 bg-surface pl-9 pr-3 text-xs outline-none focus:border-brand-500"
+          />
         </div>
-        <div className="flex gap-2">
-          {cats.map((c) => (
-            <button key={c} type="button" onClick={() => setCategory(c)} className={`min-h-9 rounded-lg px-3 text-xs font-medium transition ${category === c ? "bg-brand-600 text-white" : "border border-border bg-surface text-muted-foreground hover:text-foreground"}`}>{c}</button>
+
+        <div className="flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0 scrollbar-none rounded-xl border border-border/80 bg-background/60 p-1">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setCategoryFilter(cat)}
+              className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all shrink-0 ${
+                categoryFilter === cat
+                  ? "bg-surface text-foreground shadow-xs border border-border/60"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {cat}
+            </button>
           ))}
         </div>
       </div>
-      <div className="overflow-hidden rounded-xl border border-border bg-surface">
-        <table className="w-full text-sm">
-          <thead className="border-b border-border bg-muted/40 text-xs uppercase tracking-wide text-muted-foreground">
+
+      {/* Responsive Table / Cards */}
+      <div className="overflow-hidden rounded-2xl border border-border/80 bg-surface shadow-xs w-full">
+        {/* Mobile View */}
+        <div className="flex flex-col divide-y divide-border/60 sm:hidden">
+          {filtered.map((d) => (
+            <div key={d.id} className="p-3.5 flex items-center justify-between gap-3">
+              <div className="flex items-start gap-2.5 min-w-0">
+                <FileText className="size-4 text-brand-600 shrink-0 mt-0.5" />
+                <div className="min-w-0">
+                  <p className="text-xs font-bold text-foreground truncate">{d.name}</p>
+                  <p className="text-[10px] text-muted-foreground mt-0.5">{d.category} • {d.owner} • {d.size}</p>
+                </div>
+              </div>
+              <button type="button" className="btn btn-ghost btn-sm min-h-[40px] px-2 shrink-0" aria-label="Download">
+                <Download className="size-4" />
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop Table View */}
+        <table className="hidden sm:table w-full text-xs">
+          <thead className="border-b border-border/80 bg-background/60 font-bold text-muted-foreground uppercase tracking-wider">
             <tr>
-              <th className="px-4 py-3 text-left">Name</th>
-              <th className="px-4 py-3 text-left">Category</th>
-              <th className="px-4 py-3 text-left">Owner</th>
-              <th className="px-4 py-3 text-left">Size</th>
-              <th className="px-4 py-3 text-left">Updated</th>
-              <th className="px-4 py-3" />
+              <th className="p-3.5 text-left">Document Name</th>
+              <th className="p-3.5 text-left">Category</th>
+              <th className="p-3.5 text-left">Owner</th>
+              <th className="p-3.5 text-left">File Size</th>
+              <th className="p-3.5 text-left">Last Updated</th>
+              <th className="p-3.5 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-border/60">
             {filtered.map((d) => (
-              <tr key={d.id} className="border-b border-border last:border-0 hover:bg-muted/30">
-                <td className="px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <FileText aria-hidden="true" className="size-4 text-brand-700" />
-                    <span className="font-medium">{d.name}</span>
+              <tr key={d.id} className="hover:bg-muted/40 transition-colors">
+                <td className="p-3.5">
+                  <div className="flex items-center gap-2.5">
+                    <FileText className="size-4 text-brand-600 shrink-0" />
+                    <span className="font-bold text-foreground">{d.name}</span>
                   </div>
                 </td>
-                <td className="px-4 py-3 text-muted-foreground">{d.category}</td>
-                <td className="px-4 py-3 text-muted-foreground">{d.owner}</td>
-                <td className="px-4 py-3 text-muted-foreground">{d.size}</td>
-                <td className="px-4 py-3 text-muted-foreground">{d.updated}</td>
-                <td className="px-4 py-3 text-right">
-                  <button type="button" className="text-brand-700 hover:underline"><Download aria-hidden="true" className="size-4" /></button>
+                <td className="p-3.5 text-muted-foreground font-medium">{d.category}</td>
+                <td className="p-3.5 text-muted-foreground font-medium">{d.owner}</td>
+                <td className="p-3.5 text-muted-foreground font-mono">{d.size}</td>
+                <td className="p-3.5 text-muted-foreground">{d.updated}</td>
+                <td className="p-3.5 text-right">
+                  <button type="button" className="btn btn-ghost btn-sm">
+                    <Download className="size-3.5" /> Download
+                  </button>
                 </td>
               </tr>
             ))}

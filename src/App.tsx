@@ -39,6 +39,11 @@ const TechnologyScouting = lazy(() => import("./pages/TechnologyScouting"));
 const OpenInnovation = lazy(() => import("./pages/OpenInnovation"));
 const RoiTracking = lazy(() => import("./pages/RoiTracking"));
 const StageGates = lazy(() => import("./pages/StageGates"));
+const AuditLog = lazy(() => import("./pages/AuditLog"));
+const Billing = lazy(() => import("./pages/Billing"));
+const Integrations = lazy(() => import("./pages/Integrations"));
+const TrustCenter = lazy(() => import("./pages/TrustCenter"));
+const StatusPage = lazy(() => import("./pages/StatusPage"));
 import { moreNavItems } from "./components/navigation/nav-items";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -112,6 +117,11 @@ export default function App() {
             <Route path="/challenges" element={<Page><OpenInnovation /></Page>} />
             <Route path="/roi" element={<Page><RoiTracking /></Page>} />
             <Route path="/stage-gates" element={<Page><StageGates /></Page>} />
+            <Route path="/audit-log" element={<Page><AuditLog /></Page>} />
+            <Route path="/billing" element={<Page><Billing /></Page>} />
+            <Route path="/integrations" element={<Page><Integrations /></Page>} />
+            <Route path="/trust" element={<Page><TrustCenter /></Page>} />
+            <Route path="/status" element={<Page><StatusPage /></Page>} />
 
             <Route path="/more" element={<Page>
               <div className="grid gap-3 sm:grid-cols-2">

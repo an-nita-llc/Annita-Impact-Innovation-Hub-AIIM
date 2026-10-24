@@ -46,12 +46,6 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  /* ---------------------------------------------------------------- */
-  /* Fluid type scale (Utopia-style clamps, 360px → 1280px viewports).  */
-  /* rem-based min/max keeps user font settings and zoom working; the  */
-  /* vw middle interpolates smoothly with zero breakpoints. Micro type */
-  /* (xs/sm) stays fixed — fluid microcopy harms readability.          */
-  /* ---------------------------------------------------------------- */
   --text-xs: 0.75rem;
   --text-xs--line-height: 1rem;
   --text-sm: 0.875rem;
@@ -73,14 +67,19 @@
 body {
   background: var(--background);
   color: var(--foreground);
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* ------------------------------------------------------------------ */
-/* Annita One premium form controls. Native <select> elements are used */
-/* across every module, so the closed control is styled globally here */
-/* (gradient border on focus, custom chevron, 44px touch target) while */
-/* the OS-rendered option list gets the navy treatment below.         */
-/* ------------------------------------------------------------------ */
+/* Prevents iOS browser auto-zoom on form controls */
+input, select, textarea {
+  font-size: 16px !important;
+}
+@media (min-width: 640px) {
+  input, select, textarea {
+    font-size: 0.875rem !important;
+  }
+}
 
 select {
   appearance: none;
@@ -93,8 +92,6 @@ select {
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   padding: 0.625rem 2.5rem 0.625rem 0.875rem;
-  font-size: 1rem;
-  line-height: 1.5;
   color: var(--foreground);
   cursor: pointer;
   transition:
@@ -120,17 +117,12 @@ select:disabled {
   cursor: not-allowed;
 }
 
-/* Every app select carries Tailwind utilities (single-class            */
-/* specificity), so this one-class-higher rule guarantees chevron      */
-/* clearance and control height no matter the page.                    */
 select[class] {
   min-height: 2.75rem;
   padding-right: 2.5rem;
   border-radius: 0.75rem;
 }
 
-/* OS-rendered option lists: deep navy with white text (Chromium +      */
-/* Firefox honor these; Safari falls back to the system list).          */
 select option,
 select optgroup {
   background-color: #042441;
@@ -145,12 +137,6 @@ select option:checked {
 select option:disabled {
   color: #93a4b8;
 }
-
-/* ------------------------------------------------------------------ */
-/* CSP-safe dynamic styling (no inline style attributes anywhere).     */
-/* Progress bars use 5%-step width utilities — visually identical on   */
-/* 8px bars, zero Content-Security-Policy violations.                  */
-/* ------------------------------------------------------------------ */
 
 .bg-grid-faint {
   background-image:
@@ -180,10 +166,6 @@ select option:disabled {
 .w-pct-90 { width: 90%; }
 .w-pct-95 { width: 95%; }
 .w-pct-100 { width: 100%; }
-
-/* ------------------------------------------------------------------ */
-/* Modal + sheet motion (reduced-motion safe).                         */
-/* ------------------------------------------------------------------ */
 
 @keyframes annita-overlay-in {
   from {
@@ -220,29 +202,25 @@ select option:disabled {
   }
 }
 
-/* ------------------------------------------------------------------ */
-/* Button system. One anatomy for every action in the app: 44px        */
-/* targets, semibold small type, consistent radius + focus ring.       */
-/* Placement convention (not encoded here, enforced in review):        */
-/* primary action top-right on desktop / full-width stacked on mobile, */
-/* destructive actions always behind an explicit Modal confirm.        */
-/* ------------------------------------------------------------------ */
-
 @layer components {
+  .glass-card {
+    @apply w-full rounded-2xl sm:rounded-3xl border border-border/80 bg-surface/95 p-4 sm:p-5 md:p-6 shadow-xs transition-all hover:border-brand-300 hover:shadow-md active:scale-[0.995];
+  }
+
   .btn {
-    @apply inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-lg px-5 text-center text-sm font-semibold transition-colors select-none disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex min-h-[44px] sm:min-h-11 cursor-pointer items-center justify-center gap-2 rounded-xl px-4 sm:px-5 text-center text-xs sm:text-sm font-bold transition-all select-none disabled:cursor-not-allowed disabled:opacity-60 active:scale-[0.98];
   }
   .btn:focus-visible {
     @apply outline-2 outline-offset-2 outline-brand-600;
   }
   .btn-primary {
-    @apply bg-brand-600 text-white hover:bg-brand-700;
+    @apply bg-brand-600 text-white shadow-xs hover:bg-brand-700 hover:shadow-brand-600/20;
   }
   .btn-secondary {
-    @apply border border-border bg-surface text-foreground hover:bg-muted;
+    @apply border border-border/80 bg-surface text-foreground shadow-xs hover:bg-muted/80 hover:border-brand-300;
   }
   .btn-danger {
-    @apply bg-danger text-white hover:brightness-110;
+    @apply bg-danger text-white shadow-xs hover:brightness-110;
   }
   .btn-danger-outline {
     @apply border border-danger/40 bg-transparent text-danger hover:bg-danger/10;
@@ -251,19 +229,15 @@ select option:disabled {
     @apply bg-transparent text-brand-700 hover:bg-brand-50;
   }
   .btn-sm {
-    @apply min-h-10 px-3 text-xs;
+    @apply min-h-[40px] sm:min-h-9 px-3 text-xs rounded-lg;
   }
   .btn-lg {
-    @apply min-h-12 px-6 text-sm;
+    @apply min-h-[50px] sm:min-h-12 px-6 text-sm sm:text-base rounded-xl;
   }
   .btn-block {
     @apply w-full;
   }
 }
-
-/* ------------------------------------------------------------------ */
-/* ID badge printing: isolate the badge sheet, hide app chrome.       */
-/* ------------------------------------------------------------------ */
 
 @page {
   margin: 12mm;
