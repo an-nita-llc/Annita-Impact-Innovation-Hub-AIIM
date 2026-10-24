@@ -2,21 +2,28 @@ import { Link, useLocation } from "react-router-dom";
 import { LogoMark } from "@/components/brand/logo";
 import { useAuth } from "@/context/AuthContext";
 import {
+  Activity,
   BarChart3,
+  BookOpen,
   Briefcase,
   Calculator,
   CalendarClock,
+  CreditCard,
   FolderOpen,
   Globe,
+  History,
   Home,
   LogOut,
   MessageSquare,
   Rocket,
   Search,
   Settings,
+  Shield,
+  ShieldCheck,
   Sparkles,
   TrendingUp,
   Users,
+  Zap,
 } from "lucide-react";
 
 function isActive(pathname: string, href: string) {
@@ -26,34 +33,106 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-const mainNav = [
-  { href: "/dashboard", label: "Dashboard", icon: Home },
-  { href: "/deal-flow", label: "Deal Flow", icon: TrendingUp },
-  { href: "/pipeline", label: "Pipeline", icon: BarChart3 },
-  { href: "/deal-rooms", label: "Deal Rooms", icon: Briefcase },
-  { href: "/valuation", label: "Valuation Engine", icon: Calculator, badge: "New" },
-  { href: "/ask-aiim", label: "AIIM AI", icon: Sparkles, badge: "AI" },
-];
-
-const ecosystemNav = [
-  { href: "/innovation-map", label: "Innovation Map", icon: Globe },
-  { href: "/founders", label: "Founders", icon: Users },
-  { href: "/investors", label: "Investors", icon: Users },
-  { href: "/partners", label: "Partners", icon: Users },
-  { href: "/programs", label: "Programs", icon: Rocket },
-  { href: "/events", label: "Events", icon: CalendarClock },
-];
-
-const workspaceNav = [
-  { href: "/messages", label: "Messages", icon: MessageSquare },
-  { href: "/documents", label: "Documents", icon: FolderOpen },
-  { href: "/analytics", label: "Analytics", icon: BarChart3 },
-  { href: "/settings", label: "Settings", icon: Settings },
-];
+const ROLE_NAV = {
+  founder: {
+    main: [
+      { href: "/dashboard", label: "Dashboard", icon: Home },
+      { href: "/investors", label: "Investors", icon: Users },
+      { href: "/deal-rooms", label: "Deal Rooms", icon: Briefcase },
+      { href: "/valuation", label: "Valuation Engine", icon: Calculator, badge: "New" },
+      { href: "/ask-aiim", label: "AIIM AI", icon: Sparkles, badge: "AI" },
+    ],
+    ecosystem: [
+      { href: "/innovation-map", label: "Innovation Map", icon: Globe },
+      { href: "/programs", label: "Programs & Cohorts", icon: Rocket },
+      { href: "/events", label: "Events & Demos", icon: CalendarClock },
+    ],
+    tools: [
+      { href: "/messages", label: "Messages", icon: MessageSquare },
+      { href: "/documents", label: "Documents", icon: FolderOpen },
+      { href: "/settings", label: "Settings", icon: Settings },
+    ],
+  },
+  investor: {
+    main: [
+      { href: "/dashboard", label: "Dashboard", icon: Home },
+      { href: "/deal-flow", label: "Deal Flow", icon: TrendingUp },
+      { href: "/pipeline", label: "Deal Pipeline", icon: BarChart3 },
+      { href: "/deal-rooms", label: "Deal Rooms", icon: Briefcase },
+      { href: "/valuation", label: "Valuation Engine", icon: Calculator, badge: "New" },
+      { href: "/ask-aiim", label: "AIIM AI", icon: Sparkles, badge: "AI" },
+    ],
+    ecosystem: [
+      { href: "/founders", label: "Founders", icon: Users },
+      { href: "/innovation-map", label: "Innovation Map", icon: Globe },
+      { href: "/analytics", label: "Analytics & Portfolio", icon: BarChart3 },
+    ],
+    tools: [
+      { href: "/messages", label: "Messages", icon: MessageSquare },
+      { href: "/documents", label: "Documents", icon: FolderOpen },
+      { href: "/settings", label: "Settings", icon: Settings },
+    ],
+  },
+  partner: {
+    main: [
+      { href: "/dashboard", label: "Dashboard", icon: Home },
+      { href: "/challenges", label: "Open Innovation", icon: Rocket },
+      { href: "/pilots", label: "Live Pilots", icon: Zap },
+      { href: "/scouting", label: "Tech Scouting", icon: Search },
+      { href: "/ask-aiim", label: "AIIM AI", icon: Sparkles, badge: "AI" },
+    ],
+    ecosystem: [
+      { href: "/founders", label: "Founders", icon: Users },
+      { href: "/innovation-map", label: "Innovation Map", icon: Globe },
+      { href: "/ideas", label: "Idea Management", icon: Rocket },
+    ],
+    tools: [
+      { href: "/messages", label: "Messages", icon: MessageSquare },
+      { href: "/documents", label: "Documents", icon: FolderOpen },
+      { href: "/settings", label: "Settings", icon: Settings },
+    ],
+  },
+  "school-admin": {
+    main: [
+      { href: "/dashboard", label: "Dashboard", icon: Home },
+      { href: "/programs", label: "Incubator Cohorts", icon: Rocket },
+      { href: "/founders", label: "Student Founders", icon: Users },
+      { href: "/innovation-map", label: "Innovation Map", icon: Globe },
+      { href: "/ask-aiim", label: "AIIM AI", icon: Sparkles, badge: "AI" },
+    ],
+    ecosystem: [
+      { href: "/events", label: "Demo Days", icon: CalendarClock },
+      { href: "/documents", label: "Research IP Docs", icon: FolderOpen },
+    ],
+    tools: [
+      { href: "/messages", label: "Messages", icon: MessageSquare },
+      { href: "/settings", label: "Settings", icon: Settings },
+    ],
+  },
+  admin: {
+    main: [
+      { href: "/admin", label: "Admin Console", icon: Shield },
+      { href: "/audit-log", label: "Audit Log", icon: History },
+      { href: "/billing", label: "Billing & Metering", icon: CreditCard },
+      { href: "/integrations", label: "Integrations & API", icon: Zap },
+      { href: "/status", label: "System Health", icon: Activity },
+    ],
+    ecosystem: [
+      { href: "/trust", label: "Trust Center", icon: ShieldCheck },
+      { href: "/analytics", label: "Platform Analytics", icon: BarChart3 },
+    ],
+    tools: [
+      { href: "/settings", label: "Settings", icon: Settings },
+      { href: "/help", label: "Help Center", icon: BookOpen },
+    ],
+  },
+};
 
 export function Sidebar() {
   const { pathname } = useLocation();
   const { user, logout } = useAuth();
+  const role = (user?.role ?? "founder") as keyof typeof ROLE_NAV;
+  const nav = ROLE_NAV[role] ?? ROLE_NAV.founder;
 
   return (
     <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-border/80 bg-surface/95 backdrop-blur-md md:flex shadow-sm">
@@ -67,7 +146,7 @@ export function Sidebar() {
           </div>
         </Link>
         <span className="rounded-full bg-brand-50 border border-brand-200/60 px-2 py-0.5 text-[10px] font-bold text-brand-700 uppercase">
-          {user?.role || "Pro"}
+          {user?.role || "Founder"}
         </span>
       </div>
 
@@ -89,9 +168,9 @@ export function Sidebar() {
       <nav aria-label="Primary" className="flex-1 overflow-y-auto px-3 py-2 space-y-4">
         {/* Main Section */}
         <div>
-          <p className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70">Main</p>
+          <p className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70">Workspace</p>
           <ul className="space-y-0.5">
-            {mainNav.map((item) => {
+            {nav.main.map((item) => {
               const active = isActive(pathname, item.href);
               const Icon = item.icon;
               return (
@@ -125,7 +204,7 @@ export function Sidebar() {
         <div>
           <p className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70">Ecosystem</p>
           <ul className="space-y-0.5">
-            {ecosystemNav.map((item) => {
+            {nav.ecosystem.map((item) => {
               const active = isActive(pathname, item.href);
               const Icon = item.icon;
               return (
@@ -148,11 +227,11 @@ export function Sidebar() {
           </ul>
         </div>
 
-        {/* Workspace & Tools */}
+        {/* Tools Section */}
         <div>
-          <p className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70">Workspace</p>
+          <p className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70">Tools & Account</p>
           <ul className="space-y-0.5">
-            {workspaceNav.map((item) => {
+            {nav.tools.map((item) => {
               const active = isActive(pathname, item.href);
               const Icon = item.icon;
               return (
@@ -185,7 +264,7 @@ export function Sidebar() {
             </div>
             <div className="min-w-0 flex-1">
               <p className="truncate text-xs font-bold text-foreground leading-tight">{user?.name || user?.email || "Guest User"}</p>
-              <p className="truncate text-[10px] font-medium text-muted-foreground capitalize">{user?.role || "Member"}</p>
+              <p className="truncate text-[10px] font-medium text-muted-foreground capitalize">{user?.role || "Founder"}</p>
             </div>
           </div>
           <button

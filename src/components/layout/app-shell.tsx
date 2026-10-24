@@ -6,11 +6,13 @@ import {
   Bell,
   BookOpen,
   Briefcase,
+  Calculator,
   CalendarClock,
   ChevronRight,
   CreditCard,
   FileText,
   FolderOpen,
+  Globe,
   History,
   Home,
   LogOut,
@@ -75,12 +77,110 @@ const PAGE_NAMES: Record<string, string> = {
   "/status": "Status Page",
 };
 
+const ROLE_NAV = {
+  founder: {
+    main: [
+      { href: "/dashboard", label: "Dashboard", icon: Home },
+      { href: "/investors", label: "Investors", icon: Users },
+      { href: "/deal-rooms", label: "Deal Rooms", icon: Briefcase },
+      { href: "/valuation", label: "Valuation Engine", icon: Calculator },
+      { href: "/ask-aiim", label: "AIIM AI", icon: Sparkles },
+    ],
+    ecosystem: [
+      { href: "/innovation-map", label: "Innovation Map", icon: Globe },
+      { href: "/programs", label: "Programs & Cohorts", icon: Rocket },
+      { href: "/events", label: "Events & Demos", icon: CalendarClock },
+    ],
+    tools: [
+      { href: "/messages", label: "Messages", icon: MessageSquare },
+      { href: "/documents", label: "Documents", icon: FolderOpen },
+      { href: "/settings", label: "Settings", icon: Settings },
+    ],
+  },
+  investor: {
+    main: [
+      { href: "/dashboard", label: "Dashboard", icon: Home },
+      { href: "/deal-flow", label: "Deal Flow", icon: TrendingUp },
+      { href: "/pipeline", label: "Deal Pipeline", icon: BarChart3 },
+      { href: "/deal-rooms", label: "Deal Rooms", icon: Briefcase },
+      { href: "/valuation", label: "Valuation Engine", icon: Calculator },
+      { href: "/ask-aiim", label: "AIIM AI", icon: Sparkles },
+    ],
+    ecosystem: [
+      { href: "/founders", label: "Founders", icon: Users },
+      { href: "/innovation-map", label: "Innovation Map", icon: Globe },
+      { href: "/analytics", label: "Analytics & Portfolio", icon: BarChart3 },
+    ],
+    tools: [
+      { href: "/messages", label: "Messages", icon: MessageSquare },
+      { href: "/documents", label: "Documents", icon: FolderOpen },
+      { href: "/settings", label: "Settings", icon: Settings },
+    ],
+  },
+  partner: {
+    main: [
+      { href: "/dashboard", label: "Dashboard", icon: Home },
+      { href: "/challenges", label: "Open Innovation", icon: Rocket },
+      { href: "/pilots", label: "Live Pilots", icon: Zap },
+      { href: "/scouting", label: "Tech Scouting", icon: Search },
+      { href: "/ask-aiim", label: "AIIM AI", icon: Sparkles },
+    ],
+    ecosystem: [
+      { href: "/founders", label: "Founders", icon: Users },
+      { href: "/innovation-map", label: "Innovation Map", icon: Globe },
+      { href: "/ideas", label: "Idea Management", icon: Rocket },
+    ],
+    tools: [
+      { href: "/messages", label: "Messages", icon: MessageSquare },
+      { href: "/documents", label: "Documents", icon: FolderOpen },
+      { href: "/settings", label: "Settings", icon: Settings },
+    ],
+  },
+  "school-admin": {
+    main: [
+      { href: "/dashboard", label: "Dashboard", icon: Home },
+      { href: "/programs", label: "Incubator Cohorts", icon: Rocket },
+      { href: "/founders", label: "Student Founders", icon: Users },
+      { href: "/innovation-map", label: "Innovation Map", icon: Globe },
+      { href: "/ask-aiim", label: "AIIM AI", icon: Sparkles },
+    ],
+    ecosystem: [
+      { href: "/events", label: "Demo Days", icon: CalendarClock },
+      { href: "/documents", label: "Research IP Docs", icon: FolderOpen },
+    ],
+    tools: [
+      { href: "/messages", label: "Messages", icon: MessageSquare },
+      { href: "/settings", label: "Settings", icon: Settings },
+    ],
+  },
+  admin: {
+    main: [
+      { href: "/admin", label: "Admin Console", icon: Shield },
+      { href: "/audit-log", label: "Audit Log", icon: History },
+      { href: "/billing", label: "Billing & Metering", icon: CreditCard },
+      { href: "/integrations", label: "Integrations & API", icon: Zap },
+      { href: "/status", label: "System Health", icon: Activity },
+    ],
+    ecosystem: [
+      { href: "/trust", label: "Trust Center", icon: ShieldCheck },
+      { href: "/analytics", label: "Platform Analytics", icon: BarChart3 },
+    ],
+    tools: [
+      { href: "/settings", label: "Settings", icon: Settings },
+      { href: "/help", label: "Help Center", icon: BookOpen },
+    ],
+  },
+};
+
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { pathname } = useLocation();
   const { user, logout } = useAuth();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [mobileQuery, setMobileQuery] = useState("");
   const unreadCount = 2;
+
+  const role = (user?.role ?? "founder") as keyof typeof ROLE_NAV;
+  const nav = ROLE_NAV[role] ?? ROLE_NAV.founder;
 
   // Auto close drawer on navigation
   useEffect(() => {
@@ -147,21 +247,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </div>
             <div className="flex flex-col text-left">
               <span className="text-xs font-bold text-foreground leading-tight">{user?.name || "Member"}</span>
-              <span className="text-[10px] text-muted-foreground capitalize font-medium">{user?.role || "Member"}</span>
+              <span className="text-[10px] text-muted-foreground capitalize font-medium">{user?.role || "Founder"}</span>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Mobile Sticky Top Header: Logo on Left, Notification Bell + Hamburger Menu on Right */}
+      {/* Mobile Sticky Top Header */}
       <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border/80 bg-surface/95 px-4 backdrop-blur-md md:hidden">
-        {/* Left Side: Brand Logo */}
         <Link to="/dashboard" className="flex items-center gap-2" aria-label="AIIM home">
           <LogoMark size="sm" full={false} />
           <span className="text-base font-bold tracking-tight text-annita-navy-900">AIIM</span>
         </Link>
 
-        {/* Right Side: Notification Bell + Hamburger Menu Button */}
         <div className="flex items-center gap-2">
           <Link
             to="/notifications"
@@ -204,7 +302,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <LogoMark size="sm" full={false} />
                 <div>
                   <p className="text-base font-bold tracking-tight text-annita-navy-900 leading-tight">AIIM Hub</p>
-                  <p className="text-[10px] font-semibold text-brand-700 uppercase">Impact Innovation</p>
+                  <p className="text-[10px] font-semibold text-brand-700 uppercase">{user?.role || "Founder"} Role</p>
                 </div>
               </Link>
               <button
@@ -231,19 +329,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               </div>
             </div>
 
-            {/* Drawer Navigation List */}
+            {/* Role-filtered Drawer Navigation List */}
             <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-4" aria-label="Mobile Navigation Drawer">
-              {/* Core Section */}
               <div>
-                <p className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Core Workspace</p>
+                <p className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Workspace</p>
                 <ul className="space-y-1">
-                  {[
-                    { href: "/dashboard", label: "Dashboard", icon: Home },
-                    { href: "/deal-flow", label: "Deal Flow", icon: TrendingUp },
-                    { href: "/pipeline", label: "Pipeline", icon: BarChart3 },
-                    { href: "/deal-rooms", label: "Deal Rooms", icon: Briefcase },
-                    { href: "/ask-aiim", label: "AIIM AI", icon: Sparkles },
-                  ].map((item) => {
+                  {nav.main.map((item) => {
                     const active = isActive(pathname, item.href);
                     const Icon = item.icon;
                     return (
@@ -264,17 +355,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 </ul>
               </div>
 
-              {/* Ecosystem Section */}
               <div>
-                <p className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Ecosystem & Community</p>
+                <p className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Ecosystem</p>
                 <ul className="space-y-1">
-                  {[
-                    { href: "/founders", label: "Founders", icon: Users },
-                    { href: "/investors", label: "Investors", icon: Users },
-                    { href: "/partners", label: "Partners", icon: Users },
-                    { href: "/programs", label: "Programs & Cohorts", icon: Rocket },
-                    { href: "/events", label: "Events & Demos", icon: CalendarClock },
-                  ].map((item) => {
+                  {nav.ecosystem.map((item) => {
                     const active = isActive(pathname, item.href);
                     const Icon = item.icon;
                     return (
@@ -295,20 +379,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 </ul>
               </div>
 
-              {/* Workspace & Tools */}
               <div>
-                <p className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Tools & Operations</p>
+                <p className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Tools & Account</p>
                 <ul className="space-y-1">
-                  {[
-                    { href: "/messages", label: "Messages", icon: MessageSquare },
-                    { href: "/documents", label: "Documents", icon: FolderOpen },
-                    { href: "/analytics", label: "Analytics & Funnel", icon: BarChart3 },
-                    { href: "/ideas", label: "Idea Management", icon: Rocket },
-                    { href: "/scouting", label: "Tech Scouting", icon: Search },
-                    { href: "/challenges", label: "Open Innovation", icon: Rocket },
-                    { href: "/pilots", label: "Pilots", icon: Zap },
-                    { href: "/settings", label: "Settings", icon: Settings },
-                  ].map((item) => {
+                  {nav.tools.map((item) => {
                     const active = isActive(pathname, item.href);
                     const Icon = item.icon;
                     return (
@@ -339,7 +413,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-xs font-bold text-foreground">{user?.name || user?.email || "User"}</p>
-                    <p className="truncate text-[10px] text-muted-foreground capitalize">{user?.role || "Member"}</p>
+                    <p className="truncate text-[10px] text-muted-foreground capitalize">{user?.role || "Founder"}</p>
                   </div>
                 </div>
                 <button

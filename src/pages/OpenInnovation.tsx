@@ -18,33 +18,33 @@ const CHALLENGES: Challenge[] = [
 
 export default function OpenInnovation() {
   return (
-    <div className="flex flex-col gap-6">
-      {/* Header Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border/60 pb-5">
+    <div className="flex flex-col gap-5 sm:gap-6 w-full">
+      {/* Header Bar - Deal Flow Standard */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border/60 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-extrabold tracking-tight text-foreground">Open Innovation</h1>
-            <span className="rounded-full bg-brand-50 border border-brand-200 px-2.5 py-0.5 text-xs font-bold text-brand-700">
-              3 Active Challenges
+            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground">Open Innovation</h1>
+            <span className="rounded-full bg-brand-50 border border-brand-200 px-2.5 py-0.5 text-[10px] font-bold text-brand-700">
+              3 Challenges
             </span>
           </div>
-          <p className="mt-1 text-xs text-muted-foreground">
+          <p className="mt-0.5 text-xs text-muted-foreground">
             External corporate challenges, RFI submission workflows, and startup engagement programs.
           </p>
         </div>
-        <button type="button" className="btn btn-primary">
+        <button type="button" className="btn btn-primary btn-sm min-h-[44px] w-full sm:w-auto">
           <Plus className="size-4" /> Post Challenge
         </button>
       </div>
 
       {/* Challenge Cards List */}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 w-full">
         {CHALLENGES.map((c) => (
           <div key={c.id} className="glass-card transition-all hover:border-brand-300">
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2.5">
-                  <h2 className="text-lg font-bold tracking-tight text-foreground">{c.title}</h2>
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+              <div className="min-w-0 flex-1 w-full">
+                <div className="flex items-center justify-between sm:justify-start gap-2.5">
+                  <h2 className="text-base sm:text-lg font-bold tracking-tight text-foreground">{c.title}</h2>
                   <span
                     className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
                       c.status === "Open"
@@ -56,11 +56,13 @@ export default function OpenInnovation() {
                   </span>
                 </div>
 
-                <p className="mt-1 text-xs text-muted-foreground font-medium">Sponsor: <span className="text-foreground font-bold">{c.sponsor}</span></p>
+                <p className="mt-1 text-xs text-muted-foreground font-medium">
+                  Sponsor: <strong className="text-foreground">{c.sponsor}</strong>
+                </p>
 
-                <div className="mt-3.5 flex flex-wrap gap-4 text-xs font-semibold text-muted-foreground">
+                <div className="mt-3.5 flex flex-wrap gap-3 text-xs font-semibold text-muted-foreground">
                   <span className="flex items-center gap-1.5 text-foreground">
-                    <Users className="size-4 text-brand-600" />
+                    <Users className="size-4 text-brand-600 shrink-0" />
                     {c.submissions} Submissions
                   </span>
                   <span>Deadline: <strong className="text-foreground">{c.deadline}</strong></span>
@@ -68,8 +70,8 @@ export default function OpenInnovation() {
                 </div>
               </div>
 
-              <button type="button" className="btn btn-secondary btn-sm shrink-0">
-                <Medal className="size-3.5" /> Manage RFI Submissions
+              <button type="button" className="btn btn-secondary btn-sm min-h-[44px] w-full sm:w-auto shrink-0">
+                <Medal className="size-3.5" /> Manage Submissions
               </button>
             </div>
           </div>
