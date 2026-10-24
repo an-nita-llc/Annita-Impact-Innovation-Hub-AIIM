@@ -70,26 +70,26 @@ export default function Founders() {
 
   return (
     <div className="flex flex-col gap-5 sm:gap-6 w-full">
-      {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border/60 pb-4">
+      {/* Header Bar - Vertical Stacked */}
+      <div className="flex flex-col gap-2 border-b border-border/60 pb-4">
+        <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground">Founder Directory</h1>
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground">Founder Directory</h1>
-            <span className="rounded-full bg-brand-50 border border-brand-200 px-2.5 py-0.5 text-[10px] font-bold text-brand-700">
-              {filtered.length} Founders
-            </span>
-          </div>
-          <p className="mt-0.5 text-xs text-muted-foreground">
-            Vetted MSME and tech founders across Africa, traction metrics, and active fundraising status.
-          </p>
+          <span className="inline-block rounded-full bg-brand-50 border border-brand-200 px-2.5 py-0.5 text-[10px] font-bold text-brand-700">
+            {filtered.length} Vetted Founders
+          </span>
         </div>
-        <Link to="/onboarding" className="btn btn-primary btn-sm min-h-[44px] w-full sm:w-auto">
-          <UserCheck className="size-4" /> Apply as Founder
-        </Link>
+        <p className="text-xs text-muted-foreground">
+          Vetted MSME and tech founders across Africa, traction metrics, and active fundraising status.
+        </p>
+        <div className="mt-2">
+          <Link to="/onboarding" className="btn btn-primary btn-sm min-h-[44px] w-full sm:w-auto">
+            <UserCheck className="size-4" /> Apply as Founder
+          </Link>
+        </div>
       </div>
 
       {/* Search Input Bar */}
-      <div className="relative w-full sm:max-w-sm">
+      <div className="relative w-full">
         <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <input
           type="text"
@@ -100,70 +100,63 @@ export default function Founders() {
         />
       </div>
 
-      {/* Founder Profile Cards Grid */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {/* Founder Profile Cards Grid - Vertically Stacked Content */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 w-full">
         {filtered.map((f) => (
-          <div key={f.id} className="glass-card flex flex-col justify-between transition-all hover:border-brand-300">
-            <div>
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex size-11 items-center justify-center rounded-2xl bg-brand-600 text-white font-extrabold text-sm shadow-xs shrink-0">
-                    {f.name.split(" ").map((n) => n[0]).join("")}
-                  </div>
-                  <div className="min-w-0">
-                    <h2 className="text-base font-bold tracking-tight text-foreground flex items-center gap-1.5">
-                      <span className="truncate">{f.name}</span>
-                      {f.verified ? <UserCheck className="size-3.5 text-brand-600 shrink-0" /> : null}
-                    </h2>
-                    <p className="text-xs font-semibold text-brand-700 truncate">{f.company}</p>
-                  </div>
+          <div key={f.id} className="glass-card flex flex-col justify-between gap-4 transition-all hover:border-brand-300">
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-3">
+                <div className="flex size-11 items-center justify-center rounded-2xl bg-brand-600 text-white font-extrabold text-sm shadow-xs shrink-0">
+                  {f.name.split(" ").map((n) => n[0]).join("")}
                 </div>
-                <span className="rounded-full bg-brand-50 px-2.5 py-0.5 text-[10px] font-bold text-brand-800 border border-brand-200/60 shrink-0">
+                <div className="min-w-0">
+                  <h2 className="text-base font-bold tracking-tight text-foreground flex items-center gap-1.5">
+                    <span className="truncate">{f.name}</span>
+                    {f.verified ? <UserCheck className="size-3.5 text-brand-600 shrink-0" /> : null}
+                  </h2>
+                  <p className="text-xs font-semibold text-brand-700 truncate">{f.company}</p>
+                </div>
+              </div>
+
+              <div>
+                <span className="inline-block rounded-full bg-brand-50 px-2.5 py-0.5 text-[10px] font-bold text-brand-800 border border-brand-200/60">
                   {f.stage}
                 </span>
               </div>
 
-              <div className="mt-4 space-y-2.5 text-xs">
-                <div className="flex items-center justify-between border-b border-border/60 pb-2">
-                  <span className="text-muted-foreground flex items-center gap-1.5 font-medium">
-                    <Building2 className="size-3.5 text-muted-foreground" />
-                    <span>Sector</span>
-                  </span>
+              <div className="space-y-2 text-xs">
+                <div className="flex flex-col gap-0.5 border-b border-border/60 pb-1.5">
+                  <span className="text-muted-foreground font-medium">Sector Focus</span>
                   <span className="font-bold text-foreground">{f.sector}</span>
                 </div>
 
-                <div className="flex items-center justify-between border-b border-border/60 pb-2">
-                  <span className="text-muted-foreground flex items-center gap-1.5 font-medium">
-                    <MapPin className="size-3.5 text-muted-foreground" />
-                    <span>Location</span>
-                  </span>
+                <div className="flex flex-col gap-0.5 border-b border-border/60 pb-1.5">
+                  <span className="text-muted-foreground font-medium">Location</span>
                   <span className="font-bold text-foreground">{f.location}</span>
                 </div>
 
-                <div className="flex items-center justify-between border-b border-border/60 pb-2">
-                  <span className="text-muted-foreground flex items-center gap-1.5 font-medium">
-                    <TrendingUp className="size-3.5 text-emerald-600" />
-                    <span>Traction</span>
-                  </span>
+                <div className="flex flex-col gap-0.5 border-b border-border/60 pb-1.5">
+                  <span className="text-muted-foreground font-medium">Traction</span>
                   <span className="font-bold text-emerald-700">{f.traction}</span>
                 </div>
 
                 <div className="pt-1">
                   <span className="text-muted-foreground font-medium block mb-1">Looking For:</span>
-                  <span className="font-bold text-foreground bg-muted/60 p-2 rounded-lg block text-[11px] leading-snug">
+                  <span className="font-bold text-foreground bg-muted/60 p-2.5 rounded-xl block text-[11px] leading-snug">
                     {f.looking}
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="mt-5 flex flex-col sm:flex-row items-center gap-2 border-t border-border/60 pt-3">
-              <Link to="/deal-flow" className="btn btn-primary btn-sm min-h-[44px] w-full sm:flex-1">
+            <div className="flex flex-col gap-2 border-t border-border/60 pt-3 w-full">
+              <Link to="/deal-flow" className="btn btn-primary btn-sm min-h-[44px] w-full justify-center">
                 <span>View Matches</span>
                 <ArrowRight className="size-3.5" />
               </Link>
-              <Link to="/messages" className="btn btn-secondary btn-sm min-h-[44px] w-full sm:w-auto">
+              <Link to="/messages" className="btn btn-secondary btn-sm min-h-[44px] w-full justify-center">
                 <MessageSquare className="size-3.5" />
+                <span>Message Founder</span>
               </Link>
             </div>
           </div>
