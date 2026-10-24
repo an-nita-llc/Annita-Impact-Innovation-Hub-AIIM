@@ -89,7 +89,7 @@ export default function Documents() {
                   <p className="text-[10px] text-muted-foreground mt-0.5">{d.category} • {d.owner} • {d.size}</p>
                 </div>
               </div>
-              <button type="button" className="btn btn-ghost btn-sm min-h-[40px] px-2 shrink-0" aria-label="Download">
+              <button type="button" className="btn btn-ghost btn-sm px-2 shrink-0" aria-label="Download">
                 <Download className="size-4" />
               </button>
             </div>

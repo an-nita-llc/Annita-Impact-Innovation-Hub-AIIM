@@ -2,6 +2,7 @@ import {StrictMode, Suspense} from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { installGlobalHaptics } from './lib/haptics';
 import './index.css';
 
 if ('serviceWorker' in navigator) {
@@ -9,6 +10,9 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js');
   });
 }
+
+// Native-app tactile feedback: subtle haptic tick on interactive presses (touch devices only).
+installGlobalHaptics();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

@@ -72,7 +72,7 @@ export default function Evaluations() {
                       key={val}
                       type="button"
                       onClick={() => setScore(idx, val + 1)}
-                      className={`h-6 flex-1 rounded-md transition-colors active:scale-95 ${
+                      className={`h-11 flex-1 rounded-lg transition-colors active:scale-95 ${
                         val + 1 <= review[idx] ? "bg-brand-600" : "bg-muted"
                       }`}
                       aria-label={`${criterion} score ${val + 1}`}

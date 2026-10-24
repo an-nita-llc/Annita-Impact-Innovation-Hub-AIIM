@@ -56,7 +56,7 @@ export default function AdminConsole() {
                 <p className="text-xs font-bold text-foreground">{q.name}</p>
                 <p className="text-[10px] text-muted-foreground mt-0.5">{q.type} • SLA: {q.sla}</p>
               </div>
-              <button type="button" className="btn btn-secondary btn-sm min-h-[40px]">Review</button>
+              <button type="button" className="btn btn-secondary btn-sm">Review</button>
             </div>
           ))}
         </div>

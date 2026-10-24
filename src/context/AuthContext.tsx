@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from 'react';
 export interface User {
   name: string;
   email: string;
-  role: 'member' | 'pioneer' | 'investor' | 'partner' | 'admin' | 'school-admin';
+  role: 'founder' | 'member' | 'pioneer' | 'investor' | 'partner' | 'admin' | 'school-admin';
   tier: 'member' | 'pioneer';
   phone?: string;
   country?: string;

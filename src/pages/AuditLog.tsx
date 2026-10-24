@@ -61,7 +61,7 @@ export default function AuditLog() {
               key={res}
               type="button"
               onClick={() => setResultFilter(res)}
-              className={`flex-1 sm:flex-none rounded-lg px-3 py-1.5 text-xs font-bold capitalize transition-all ${
+              className={`flex-1 sm:flex-none flex items-center justify-center min-h-[44px] rounded-lg px-3 py-1.5 text-xs font-bold capitalize transition-all active:scale-[0.98] ${
                 resultFilter === res
                   ? "bg-surface text-foreground shadow-xs border border-border/60"
                   : "text-muted-foreground hover:text-foreground"
