@@ -34,101 +34,88 @@ export default function DealRooms() {
 
   return (
     <div className="flex flex-col gap-5 sm:gap-6 w-full">
-      {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border/60 pb-4">
+      {/* Header Bar - Vertical Stacked */}
+      <div className="flex flex-col gap-2 border-b border-border/60 pb-4">
+        <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground">Secure Deal Rooms</h1>
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground">Secure Deal Rooms</h1>
-            <span className="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[10px] font-bold text-emerald-700 flex items-center gap-1">
-              <ShieldCheck className="size-3" /> NDA Gated
-            </span>
-          </div>
-          <p className="mt-0.5 text-xs text-muted-foreground">
-            Permission-tiered diligence rooms with dynamic watermarking and AI document Q&A.
-          </p>
+          <span className="inline-block rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[10px] font-bold text-emerald-700">
+            🔒 NDA Gated
+          </span>
         </div>
-        <button type="button" className="btn btn-primary btn-sm min-h-[44px] w-full sm:w-auto">
-          <Plus className="size-4" /> Create Deal Room
-        </button>
+        <p className="text-xs text-muted-foreground">
+          Permission-tiered diligence rooms with dynamic watermarking and AI document Q&A.
+        </p>
+        <div className="mt-2">
+          <button type="button" className="btn btn-primary btn-sm min-h-[44px] w-full sm:w-auto">
+            <Plus className="size-4" /> Create Deal Room
+          </button>
+        </div>
       </div>
 
-      {/* Room Cards Grid */}
-      <div className="grid gap-4 md:grid-cols-2">
+      {/* Room Cards List - Vertically Stacked Content */}
+      <div className="flex flex-col gap-4 w-full">
         {ROOMS.map((r) => {
           const isOpen = openRoom === r.id;
           return (
-            <div key={r.id} className="glass-card transition-all hover:border-brand-300">
-              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-                <div className="min-w-0 flex-1 w-full">
-                  <div className="flex items-center gap-2">
-                    <FolderLock className="size-5 text-brand-600 shrink-0" />
-                    <h2 className="text-base font-bold tracking-tight text-foreground truncate">{r.name}</h2>
-                  </div>
-                  <p className="mt-1 text-xs text-muted-foreground">{r.parties}</p>
-
-                  <div className="mt-3 flex flex-wrap gap-1.5 text-xs">
-                    <span className="rounded-full border border-border/80 bg-background/80 px-2.5 py-0.5 text-[11px] font-semibold text-foreground">
-                      {r.access}
-                    </span>
-                    <span className="rounded-full border border-border/80 bg-background/80 px-2.5 py-0.5 text-[11px] font-semibold text-foreground flex items-center gap-1">
-                      <FileText className="size-3 text-muted-foreground" />
-                      {r.docs} docs
-                    </span>
-                    <span
-                      className={`rounded-full px-2.5 py-0.5 font-bold uppercase tracking-wider text-[10px] ${
-                        r.status === "Active"
-                          ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                          : r.status === "Draft"
-                          ? "bg-amber-50 text-amber-700 border border-amber-200"
-                          : "bg-muted text-muted-foreground border border-border"
-                      }`}
-                    >
-                      {r.status}
-                    </span>
-                  </div>
-
-                  <p className="mt-2 text-[10px] text-muted-foreground">Updated {r.updated}</p>
+            <div key={r.id} className="glass-card flex flex-col gap-3 transition-all hover:border-brand-300 w-full">
+              {/* Title & Parties vertically under each other */}
+              <div className="flex flex-col items-start gap-1.5 w-full min-w-0">
+                <div className="flex items-center gap-2 max-w-full">
+                  <FolderLock className="size-5 text-brand-600 shrink-0" />
+                  <h2 className="text-base sm:text-lg font-bold tracking-tight text-foreground break-words">{r.name}</h2>
                 </div>
+                <p className="text-xs text-muted-foreground break-words">{r.parties}</p>
+              </div>
 
-                <div className="flex flex-row sm:flex-col gap-2 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-border/60">
-                  <button
-                    type="button"
-                    onClick={() => setOpenRoom(isOpen ? null : r.id)}
-                    className="btn btn-secondary btn-sm flex-1 sm:flex-none min-h-[44px]"
-                  >
-                    {isOpen ? "Close Room" : "Enter Room"}
-                  </button>
-                  <button type="button" className="btn btn-ghost btn-sm flex-1 sm:flex-none min-h-[44px]">
-                    <Upload className="size-3.5" /> Upload
-                  </button>
+              {/* Badges Vertically Stacked List */}
+              <div className="flex flex-col gap-1.5 w-full">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Room Status</p>
+                <div className="rounded-xl border border-border/80 bg-background/80 p-2.5 space-y-1 text-xs font-semibold text-foreground">
+                  <p>• Access Level: <strong>{r.access}</strong></p>
+                  <p>• Documents: <strong>{r.docs} Files</strong></p>
+                  <p>• Status: <strong className="text-brand-700">{r.status}</strong></p>
+                  <p className="text-muted-foreground font-normal">• Updated: {r.updated}</p>
                 </div>
+              </div>
+
+              {/* Action Buttons Stacked Vertically */}
+              <div className="flex flex-col gap-2 pt-2 border-t border-border/60 w-full">
+                <button
+                  type="button"
+                  onClick={() => setOpenRoom(isOpen ? null : r.id)}
+                  className="btn btn-secondary btn-sm min-h-[44px] w-full justify-center"
+                >
+                  {isOpen ? "Close Room Details" : "Enter Deal Room"}
+                </button>
+                <button type="button" className="btn btn-ghost btn-sm min-h-[44px] w-full justify-center">
+                  <Upload className="size-3.5" /> Upload Diligence File
+                </button>
               </div>
 
               {/* Expanded Activity & Security Details */}
               {isOpen ? (
-                <div className="mt-4 border-t border-border/80 pt-4 animate-modal-in">
+                <div className="flex flex-col gap-3 border-t border-border/80 pt-4 animate-modal-in w-full">
                   <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Room Security & Activity</p>
 
-                  <ul className="mt-2.5 space-y-2 text-xs text-muted-foreground">
-                    <li className="flex items-center gap-2">
-                      <Shield className="size-4 text-emerald-600 shrink-0" />
-                      <span>Mutual NDA executed across all 3 active participant organizations</span>
+                  <ul className="space-y-2 text-xs text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <Shield className="size-4 text-emerald-600 shrink-0 mt-0.5" />
+                      <span>Mutual NDA executed across all participant organizations</span>
                     </li>
-                    <li className="flex items-center gap-2">
-                      <Users className="size-4 text-brand-600 shrink-0" />
+                    <li className="flex items-start gap-2">
+                      <Users className="size-4 text-brand-600 shrink-0 mt-0.5" />
                       <span>4 active members • 2 read-only investors</span>
                     </li>
-                    <li className="flex items-center gap-2">
-                      <Lock className="size-4 text-purple-600 shrink-0" />
+                    <li className="flex items-start gap-2">
+                      <Lock className="size-4 text-purple-600 shrink-0 mt-0.5" />
                       <span>Dynamic watermarking & AI leak detection active</span>
                     </li>
                   </ul>
 
-                  <div className="mt-4 flex flex-col sm:flex-row gap-2">
-                    <Link to="/documents" className="btn btn-primary btn-sm min-h-[44px] w-full sm:w-auto">
+                  <div className="flex flex-col gap-2 pt-2 w-full">
+                    <Link to="/documents" className="btn btn-primary btn-sm min-h-[44px] w-full justify-center">
                       <Sparkles className="size-3.5" /> Ask Room AI
                     </Link>
-                    <button type="button" className="btn btn-secondary btn-sm min-h-[44px] w-full sm:w-auto">Manage Access</button>
                   </div>
                 </div>
               ) : null}

@@ -1,13 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Building2,
   Globe,
   MapPin,
-  Rocket,
-  Search,
   Sparkles,
-  TrendingUp,
   Users,
 } from "lucide-react";
 
@@ -34,49 +30,38 @@ const HUBS: HubCity[] = [
 
 export default function InnovationMap() {
   const [selectedHub, setSelectedHub] = useState<HubCity>(HUBS[0]);
-  const [query, setQuery] = useState("");
-
-  const filteredHubs = HUBS.filter(
-    (h) =>
-      !query ||
-      h.city.toLowerCase().includes(query.toLowerCase()) ||
-      h.country.toLowerCase().includes(query.toLowerCase()) ||
-      h.region.toLowerCase().includes(query.toLowerCase()),
-  );
 
   return (
-    <div className="flex flex-col gap-6 w-full">
-      {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border/60 pb-4">
+    <div className="flex flex-col gap-5 sm:gap-6 w-full">
+      {/* Header Bar - Vertical Stacked */}
+      <div className="flex flex-col gap-2 border-b border-border/60 pb-4">
+        <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground">Pan-African Innovation Map</h1>
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground">Pan-African Innovation Map</h1>
-            <span className="rounded-full bg-brand-50 border border-brand-200 px-2.5 py-0.5 text-[10px] font-bold text-brand-700 flex items-center gap-1">
-              <Globe className="size-3" /> Live Ecosystem Activity
-            </span>
-          </div>
-          <p className="mt-0.5 text-xs text-muted-foreground">
-            Visualize active funding rounds, university incubators, and startup hubs across Sub-Saharan Africa.
-          </p>
+          <span className="inline-block rounded-full bg-brand-50 border border-brand-200 px-2.5 py-0.5 text-[10px] font-bold text-brand-700">
+            🌐 Live Ecosystem Activity
+          </span>
         </div>
+        <p className="text-xs text-muted-foreground">
+          Visualize active funding rounds, university incubators, and startup hubs across Sub-Saharan Africa.
+        </p>
       </div>
 
-      {/* Main Grid: Visual Map View & Hub Detail Drawer */}
-      <div className="grid gap-6 lg:grid-cols-[1fr_360px] w-full">
+      {/* Main Column Stacked Layout */}
+      <div className="flex flex-col gap-5 w-full">
         {/* Interactive African Map Canvas Representation */}
-        <div className="glass-card relative flex flex-col justify-between overflow-hidden min-h-[420px] bg-gradient-to-b from-annita-navy-950 via-annita-navy-900 to-annita-navy-950 text-white p-6 rounded-2xl sm:rounded-3xl border-0 shadow-lg">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+        <div className="glass-card relative flex flex-col justify-between overflow-hidden min-h-[380px] bg-gradient-to-b from-annita-navy-950 via-annita-navy-900 to-annita-navy-950 text-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl border-0 shadow-lg w-full">
+          <div className="flex flex-col gap-1 border-b border-white/10 pb-3">
             <div className="flex items-center gap-2">
-              <Sparkles className="size-4 text-brand-400" />
+              <Sparkles className="size-4 text-brand-400 shrink-0" />
               <span className="text-xs font-bold text-slate-200 uppercase tracking-wider">Ecosystem Hub Locator</span>
             </div>
-            <span className="text-[10px] font-bold bg-white/10 border border-white/20 px-2.5 py-0.5 rounded-full text-brand-300">
+            <span className="text-[10px] font-bold text-brand-300">
               $229.9M Active Ecosystem Volume
             </span>
           </div>
 
           {/* Interactive Continent Node Points */}
-          <div className="relative my-8 h-64 sm:h-72 w-full rounded-2xl bg-white/5 border border-white/10 p-4 flex items-center justify-center">
+          <div className="relative my-6 h-60 sm:h-64 w-full rounded-2xl bg-white/5 border border-white/10 p-4 flex items-center justify-center">
             <p className="absolute top-3 left-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
               Sub-Saharan Venture Clusters
             </p>
@@ -114,58 +99,56 @@ export default function InnovationMap() {
           </div>
 
           {/* Map Footer Stats */}
-          <div className="flex flex-wrap items-center justify-between gap-2 border-t border-white/10 pt-3 text-xs text-slate-300">
+          <div className="flex flex-col gap-1 border-t border-white/10 pt-3 text-xs text-slate-300">
             <span>Selected Hub: <strong className="text-white font-bold">{selectedHub.city}, {selectedHub.country}</strong></span>
             <span className="text-emerald-400 font-bold">{selectedHub.totalVolume} Active Capital</span>
           </div>
         </div>
 
-        {/* Selected Hub Detail Drawer */}
-        <div className="glass-card flex flex-col justify-between w-full">
-          <div>
-            <div className="flex items-center justify-between border-b border-border/60 pb-3">
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{selectedHub.region}</p>
-                <h2 className="text-lg font-bold tracking-tight text-foreground flex items-center gap-1.5 mt-0.5">
-                  <MapPin className="size-4 text-brand-600" />
-                  <span>{selectedHub.city}, {selectedHub.country}</span>
-                </h2>
-              </div>
-              <span className="rounded-full bg-brand-50 border border-brand-200 px-2.5 py-0.5 text-xs font-bold text-brand-800">
+        {/* Selected Hub Detail Card Vertically Stacked Underneath */}
+        <div className="glass-card flex flex-col gap-4 w-full">
+          <div className="flex flex-col gap-1 border-b border-border/60 pb-3">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{selectedHub.region}</p>
+            <h2 className="text-lg font-bold tracking-tight text-foreground flex items-center gap-1.5">
+              <MapPin className="size-4 text-brand-600 shrink-0" />
+              <span>{selectedHub.city}, {selectedHub.country}</span>
+            </h2>
+            <div>
+              <span className="inline-block rounded-full bg-brand-50 border border-brand-200 px-2.5 py-0.5 text-xs font-bold text-brand-800">
                 {selectedHub.activeRounds} Live Rounds
               </span>
             </div>
+          </div>
 
-            <div className="mt-4 space-y-3 text-xs">
-              <div className="p-3 rounded-xl border border-border/80 bg-background/60">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Total Round Volume</p>
-                <p className="text-xl font-extrabold text-brand-700 mt-0.5">{selectedHub.totalVolume}</p>
-              </div>
+          <div className="space-y-3 text-xs w-full">
+            <div className="p-3 rounded-xl border border-border/80 bg-background/60">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Total Round Volume</p>
+              <p className="text-xl font-extrabold text-brand-700 mt-0.5">{selectedHub.totalVolume}</p>
+            </div>
 
-              <div className="p-3 rounded-xl border border-border/80 bg-background/60">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Active Incubators & Accelerators</p>
-                <p className="text-base font-bold text-foreground mt-0.5">{selectedHub.incubators} Partner Hubs</p>
-              </div>
+            <div className="p-3 rounded-xl border border-border/80 bg-background/60">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Active Incubators & Accelerators</p>
+              <p className="text-base font-bold text-foreground mt-0.5">{selectedHub.incubators} Partner Hubs</p>
+            </div>
 
-              <div className="p-3 rounded-xl border border-border/80 bg-background/60">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Top Venture Sectors</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {selectedHub.topSectors.map((s, idx) => (
-                    <span key={idx} className="rounded-md bg-muted px-2 py-0.5 text-[10px] font-bold text-foreground">
-                      {s}
-                    </span>
-                  ))}
-                </div>
+            <div className="p-3 rounded-xl border border-border/80 bg-background/60">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Top Venture Sectors</p>
+              <div className="flex flex-wrap gap-1.5">
+                {selectedHub.topSectors.map((s, idx) => (
+                  <span key={idx} className="rounded-md bg-muted px-2 py-0.5 text-[10px] font-bold text-foreground">
+                    {s}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
 
-          <div className="mt-5 flex flex-col sm:flex-row gap-2 border-t border-border/60 pt-3">
-            <Link to="/deal-flow" className="btn btn-primary btn-sm min-h-[44px] w-full sm:flex-1">
+          <div className="flex flex-col gap-2 border-t border-border/60 pt-3 w-full">
+            <Link to="/deal-flow" className="btn btn-primary btn-sm min-h-[44px] w-full justify-center">
               <span>View Hub Deals</span>
             </Link>
-            <Link to="/founders" className="btn btn-secondary btn-sm min-h-[44px] w-full sm:w-auto">
-              <Users className="size-3.5" /> Founders
+            <Link to="/founders" className="btn btn-secondary btn-sm min-h-[44px] w-full justify-center">
+              <Users className="size-3.5" /> Founders Directory
             </Link>
           </div>
         </div>
