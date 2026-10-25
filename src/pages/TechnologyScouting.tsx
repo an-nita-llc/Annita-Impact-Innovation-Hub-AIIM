@@ -27,72 +27,64 @@ export default function TechnologyScouting() {
   );
 
   return (
-    <div className="flex flex-col gap-6">
-      {/* Header Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border/60 pb-5">
+    <div className="flex flex-col gap-5 sm:gap-6 w-full">
+      {/* Header Bar - Vertical Stacked */}
+      <div className="flex flex-col gap-2 border-b border-border/60 pb-4">
+        <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground">Technology Scouting</h1>
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-extrabold tracking-tight text-foreground">Technology Scouting</h1>
-            <span className="rounded-full bg-brand-50 border border-brand-200 px-2.5 py-0.5 text-xs font-bold text-brand-700">
-              Conversational Sprint
-            </span>
-          </div>
-          <p className="mt-1 text-xs text-muted-foreground">
-            AI-driven venture discovery across vetted companies, technical snapshots, and trend analysis.
-          </p>
+          <span className="inline-block rounded-full bg-brand-50 border border-brand-200 px-2.5 py-0.5 text-[10px] font-bold text-brand-700">
+            Conversational Sprint
+          </span>
         </div>
-        <button type="button" className="btn btn-primary">
-          <Sparkles className="size-4" /> Start Scouting Sprint
-        </button>
+        <p className="text-xs text-muted-foreground">
+          AI-driven venture discovery across vetted companies, technical snapshots, and trend analysis.
+        </p>
+        <div className="mt-2">
+          <button type="button" className="btn btn-primary btn-sm min-h-[44px] w-full sm:w-auto">
+            <Sparkles className="size-4" /> Start Scouting Sprint
+          </button>
+        </div>
       </div>
 
       {/* Conversational Search Input */}
-      <div className="relative">
+      <div className="relative w-full">
         <Search className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Describe technology requirements (e.g., AI grid optimization software in emerging markets)..."
-          className="h-12 w-full rounded-2xl border border-border/80 bg-surface pl-12 pr-4 text-xs font-medium outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 shadow-xs"
+          className="h-12 w-full rounded-2xl border border-border/80 bg-surface pl-12 pr-4 text-xs font-medium outline-none focus:border-brand-500 shadow-xs"
         />
       </div>
 
-      {/* Scouted Companies List */}
-      <div className="flex flex-col gap-4">
+      {/* Scouted Companies List - Vertically Stacked Content */}
+      <div className="flex flex-col gap-4 w-full">
         {filtered.map((c) => (
-          <div key={c.id} className="glass-card transition-all hover:border-brand-300">
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2.5">
-                  <h2 className="text-lg font-bold tracking-tight text-foreground">{c.name}</h2>
-                  <span className="rounded-full bg-brand-50 border border-brand-200 px-2.5 py-0.5 text-[10px] font-bold text-brand-800">
-                    {c.stage}
-                  </span>
-                </div>
-                <p className="mt-1 text-xs text-muted-foreground leading-relaxed">{c.summary}</p>
-
-                <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                  <span className="rounded-lg border border-border/80 bg-background/80 px-2.5 py-1 font-semibold text-foreground">
-                    {c.category}
-                  </span>
-                  <span className="rounded-lg border border-border/80 bg-background/80 px-2.5 py-1 font-semibold text-foreground">
-                    {c.geo}
-                  </span>
-                </div>
+          <div key={c.id} className="glass-card flex flex-col gap-3 transition-all hover:border-brand-300">
+            <div className="flex flex-col items-start gap-1.5 w-full">
+              <h2 className="text-base sm:text-lg font-extrabold tracking-tight text-foreground">{c.name}</h2>
+              <div>
+                <span className="inline-block rounded-full bg-brand-50 border border-brand-200 px-2.5 py-0.5 text-[10px] font-bold text-brand-800">
+                  {c.stage}
+                </span>
               </div>
+              <p className="text-xs text-muted-foreground leading-relaxed mt-0.5">{c.summary}</p>
+            </div>
 
-              <div className="flex flex-col items-end gap-2 shrink-0">
-                <div className="flex size-12 items-center justify-center rounded-2xl border-2 border-brand-300 bg-brand-50 text-sm font-extrabold text-brand-700 shadow-xs">
-                  {c.score}%
-                </div>
-                <button type="button" className="btn btn-secondary btn-sm">Generate Snapshot</button>
+            <div className="flex flex-col gap-1.5 w-full">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Venture Specs</p>
+              <div className="rounded-xl border border-border/80 bg-background/80 p-2.5 space-y-1 text-xs font-semibold text-foreground">
+                <p>• Category: <strong>{c.category}</strong></p>
+                <p>• Region: <strong>{c.geo}</strong></p>
+                <p className="text-brand-700 font-bold">• AI Scout Confidence: <strong>{c.score}%</strong></p>
               </div>
             </div>
 
-            <div className="mt-4 border-t border-border/60 pt-3 flex items-center gap-2 text-xs text-muted-foreground">
-              <TrendingUp className="size-4 text-emerald-600" />
-              <span>Full audit history retained: Scouting → Diligence → Pilot workspace</span>
+            <div className="flex flex-col gap-2 border-t border-border/60 pt-3 w-full">
+              <button type="button" className="btn btn-secondary btn-sm min-h-[44px] w-full">
+                Generate AI Snapshot
+              </button>
             </div>
           </div>
         ))}
