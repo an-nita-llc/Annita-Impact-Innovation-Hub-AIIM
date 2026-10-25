@@ -2,9 +2,11 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
+  BookmarkCheck,
   CheckCircle2,
   ChevronDown,
   ChevronUp,
+  Loader2,
   Search,
   Sparkles,
 } from "lucide-react";
@@ -23,7 +25,7 @@ type Match = {
   why: string[];
 };
 
-const MATCHES: Match[] = [
+const INITIAL_MATCHES: Match[] = [
   {
     id: "m1",
     name: "Solara Climate OS",
@@ -80,13 +82,44 @@ const MATCHES: Match[] = [
 ];
 
 export default function DealFlow() {
+  const [matches, setMatches] = useState<Match[]>(INITIAL_MATCHES);
   const [query, setQuery] = useState("");
   const [roleFilter, setRoleFilter] = useState<"all" | "startup" | "investor">("all");
   const [expanded, setExpanded] = useState<string | null>("m1");
+  const [isMatching, setIsMatching] = useState(false);
+  const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  function triggerToast(msg: string) {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3000);
+  }
+
+  function handleRunNewMatch() {
+    setIsMatching(true);
+    setTimeout(() => {
+      setIsMatching(false);
+      triggerToast("AI match algorithm re-indexed 32 new startup profiles!");
+    }, 1000);
+  }
+
+  function toggleSaveMatch(id: string, name: string) {
+    setSavedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+        triggerToast(`Removed ${name} from saved matches.`);
+      } else {
+        next.add(id);
+        triggerToast(`Saved ${name} to your deal watchlist!`);
+      }
+      return next;
+    });
+  }
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase();
-    return MATCHES.filter((m) => {
+    return matches.filter((m) => {
       const matchesRole = roleFilter === "all" || m.role === roleFilter;
       const matchesText =
         !q ||
@@ -95,29 +128,52 @@ export default function DealFlow() {
         m.headline.toLowerCase().includes(q);
       return matchesRole && matchesText;
     });
-  }, [query, roleFilter]);
+  }, [matches, query, roleFilter]);
 
   return (
     <div className="flex flex-col gap-5 sm:gap-6 w-full">
+      {/* Action Toast Feedback Banner */}
+      {toastMessage ? (
+        <div className="fixed top-20 right-4 z-50 rounded-2xl bg-brand-600 text-white p-4 shadow-xl border border-brand-400 flex items-center gap-2.5 text-xs font-bold animate-modal-in">
+          <Sparkles className="size-4 shrink-0" />
+          <span>{toastMessage}</span>
+        </div>
+      ) : null}
+
       {/* Header Bar - Vertical Stacked Elements */}
       <div className="flex flex-col gap-2 border-b border-border/60 pb-4">
         <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground">Deal Flow AI Matches</h1>
         <div>
           <span className="inline-block rounded-full bg-brand-50 border border-brand-200 px-2.5 py-0.5 text-[10px] font-bold text-brand-700">
-            3 High Confidence Matches
+            {filtered.length} High Confidence Matches
           </span>
         </div>
         <p className="text-xs text-muted-foreground">
           AI-matched founders, investors, and strategic partners with explainable thesis scores.
         </p>
         <div className="mt-2">
-          <button type="button" className="btn btn-primary btn-sm min-h-[44px] w-full sm:w-auto">
-            <Sparkles className="size-4" /> Run New Match
+          <button
+            type="button"
+            onClick={handleRunNewMatch}
+            disabled={isMatching}
+            className="btn btn-primary btn-sm min-h-[44px] w-full sm:w-auto justify-center"
+          >
+            {isMatching ? (
+              <>
+                <Loader2 className="size-4 animate-spin text-white" />
+                <span>Running AI Match Engine...</span>
+              </>
+            ) : (
+              <>
+                <Sparkles className="size-4" />
+                <span>Run New Match Sprint</span>
+              </>
+            )}
           </button>
         </div>
       </div>
 
-      {/* Controls & Filter Bar - Vertical Stacked */}
+      {/* Controls & Filter Bar */}
       <div className="flex flex-col gap-3 w-full">
         {/* Search Box */}
         <div className="relative w-full">
@@ -126,7 +182,7 @@ export default function DealFlow() {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search matches..."
+            placeholder="Search matches by sector, name..."
             className="h-10 w-full rounded-xl border border-border/80 bg-surface pl-9 pr-3 text-xs outline-none focus:border-brand-500"
           />
         </div>
@@ -155,13 +211,13 @@ export default function DealFlow() {
         </div>
       </div>
 
-      {/* Match Cards List - All Elements Vertical Stacked */}
+      {/* Match Cards List */}
       <div className="flex flex-col gap-4 w-full">
         {filtered.map((m) => {
           const isExp = expanded === m.id;
+          const isSaved = savedIds.has(m.id);
           return (
             <div key={m.id} className="glass-card flex flex-col gap-3 transition-all hover:border-brand-300">
-              {/* Title & Badge vertically under each other */}
               <div className="flex flex-col items-start gap-1.5 w-full">
                 <h2 className="text-base sm:text-lg font-extrabold tracking-tight text-foreground">{m.name}</h2>
                 <span
@@ -176,7 +232,6 @@ export default function DealFlow() {
                 <p className="text-xs text-muted-foreground leading-relaxed mt-0.5">{m.headline}</p>
               </div>
 
-              {/* Tags Vertically Stacked List */}
               <div className="flex flex-col gap-1.5 w-full pt-1">
                 <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Match Specs</p>
                 <div className="rounded-xl border border-border/80 bg-background/80 p-2.5 space-y-1 text-xs font-semibold text-foreground">
@@ -187,7 +242,6 @@ export default function DealFlow() {
                 </div>
               </div>
 
-              {/* Match Score Badge & Details Trigger */}
               <div className="flex flex-col items-start gap-2 border-t border-border/60 pt-3 w-full">
                 <div className="flex items-center gap-2">
                   <div className="flex size-10 items-center justify-center rounded-xl border-2 border-brand-300 bg-brand-50 text-sm font-extrabold text-brand-700 shadow-xs">
@@ -206,7 +260,6 @@ export default function DealFlow() {
                 </button>
               </div>
 
-              {/* Expanded AI Match Breakdown */}
               {isExp ? (
                 <div className="flex flex-col gap-4 border-t border-border/80 pt-4 animate-modal-in w-full">
                   <div>
@@ -242,7 +295,20 @@ export default function DealFlow() {
                         <span>Open Deal Room</span>
                         <ArrowRight className="size-3.5" />
                       </Link>
-                      <button type="button" className="btn btn-secondary btn-sm min-h-[44px] w-full">Save Match</button>
+                      <button
+                        type="button"
+                        onClick={() => toggleSaveMatch(m.id, m.name)}
+                        className="btn btn-secondary btn-sm min-h-[44px] w-full justify-center"
+                      >
+                        {isSaved ? (
+                          <>
+                            <BookmarkCheck className="size-4 text-emerald-600" />
+                            <span>Saved in Watchlist ✓</span>
+                          </>
+                        ) : (
+                          <span>Save to Watchlist</span>
+                        )}
+                      </button>
                     </div>
                   </div>
                 </div>
