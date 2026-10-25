@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import {
   ArrowUp,
-  Bot,
   MessageSquare,
   Paperclip,
   Plus,
@@ -11,6 +10,7 @@ import {
   User,
 } from "lucide-react";
 import { LogoMark } from "@/components/brand/logo";
+import { queryAIIM } from "@/services/gemini";
 
 type Message = { id: string; role: "user" | "assistant"; text: string; time: string };
 
@@ -32,7 +32,7 @@ export default function AskAIIM() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
-  function handleSend(text?: string) {
+  async function handleSend(text?: string) {
     const content = (text ?? input).trim();
     if (!content) return;
 
@@ -47,17 +47,17 @@ export default function AskAIIM() {
     setInput("");
     setIsTyping(true);
 
-    // Simulate AI response
-    setTimeout(() => {
-      setIsTyping(false);
-      const aiMsg: Message = {
-        id: `a-${Date.now()}`,
-        role: "assistant",
-        text: `Here is the AIIM AI breakdown for "${content}":\n\n1. **Key Intelligence**: Strong match detected with 3 active ecosystem funds in West Africa.\n2. **Diligence Insight**: IP clearing verified; 14 active commercial utility pilots reported in Ghana and Nigeria.\n3. **Recommended Next Action**: Open Deal Room #r1 or launch Valuation Engine to calculate pre-money terms.`,
-        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-      };
-      setMessages((prev) => [...prev, aiMsg]);
-    }, 800);
+    // Production AI Gateway Call
+    const responseText = await queryAIIM(content, "Ecosystem Intelligence Assistant");
+
+    setIsTyping(false);
+    const aiMsg: Message = {
+      id: `a-${Date.now()}`,
+      role: "assistant",
+      text: responseText,
+      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+    };
+    setMessages((prev) => [...prev, aiMsg]);
   }
 
   function handleNewChat() {
