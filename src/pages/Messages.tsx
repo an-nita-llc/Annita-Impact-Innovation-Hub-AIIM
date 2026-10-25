@@ -140,15 +140,15 @@ export default function Messages() {
 
   return (
     <div className="flex flex-col gap-4 w-full h-[calc(100dvh-3.5rem)] sm:h-[calc(100vh-4rem)] min-h-0 overflow-hidden bg-surface">
-      {/* Header Bar */}
-      <div className="border-b border-border/60 pb-3 px-4 pt-3 shrink-0">
-        <div className="flex items-center gap-2">
-          <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground">Ecosystem Messaging</h1>
-          <span className="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[10px] font-bold text-emerald-700 flex items-center gap-1">
+      {/* Header Bar - Vertical Stacked */}
+      <div className="border-b border-border/60 pb-3 px-4 pt-3 shrink-0 flex flex-col items-start gap-1.5 w-full">
+        <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground">Ecosystem Messaging</h1>
+        <div>
+          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[10px] font-bold text-emerald-700">
             <ShieldCheck className="size-3" /> End-to-End Encrypted
           </span>
         </div>
-        <p className="mt-0.5 text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground">
           Direct deal room messaging across founders, investors, and corporate partners.
         </p>
       </div>
