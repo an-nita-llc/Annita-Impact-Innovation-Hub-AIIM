@@ -31,111 +31,126 @@ const DEALS: Deal[] = [
 
 export default function Pipeline() {
   const [query, setQuery] = useState("");
+  const [activeStage, setActiveStage] = useState<string>("all");
 
-  const byStage = useMemo(() => {
+  const filteredDeals = useMemo(() => {
     const q = query.toLowerCase();
-    return stages.map((s) => ({
-      stage: s,
-      deals: DEALS.filter(
-        (d) => d.stage === s && (!q || d.name.toLowerCase().includes(q) || d.type.toLowerCase().includes(q)),
-      ),
-    }));
-  }, [query]);
+    return DEALS.filter((d) => {
+      const matchStage = activeStage === "all" || d.stage === activeStage;
+      const matchQuery =
+        !q ||
+        d.name.toLowerCase().includes(q) ||
+        d.type.toLowerCase().includes(q) ||
+        d.owner.toLowerCase().includes(q);
+      return matchStage && matchQuery;
+    });
+  }, [query, activeStage]);
 
   return (
     <div className="flex flex-col gap-5 sm:gap-6 w-full">
-      {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border/60 pb-4">
+      {/* Header Bar - Vertical Stacked */}
+      <div className="flex flex-col gap-2 border-b border-border/60 pb-4">
+        <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground">Deal & Pilot Pipeline</h1>
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground">Deal & Pilot Pipeline</h1>
-            <span className="rounded-full bg-brand-50 border border-brand-200 px-2.5 py-0.5 text-[10px] font-bold text-brand-700">
-              $2.02M
-            </span>
-          </div>
-          <p className="mt-0.5 text-xs text-muted-foreground">
-            Track funding rounds, pitch reviews, due diligence, and pilot approvals.
-          </p>
+          <span className="inline-block rounded-full bg-brand-50 border border-brand-200 px-2.5 py-0.5 text-[10px] font-bold text-brand-700">
+            $2.02M Active Volume
+          </span>
         </div>
-        <button type="button" className="btn btn-primary btn-sm min-h-[44px] w-full sm:w-auto">
-          <Plus className="size-4" /> New Deal Entry
-        </button>
+        <p className="text-xs text-muted-foreground">
+          Track funding rounds, pitch reviews, due diligence, and pilot approvals.
+        </p>
+        <div className="mt-2">
+          <button type="button" className="btn btn-primary btn-sm min-h-[44px] w-full sm:w-auto">
+            <Plus className="size-4" /> New Deal Entry
+          </button>
+        </div>
       </div>
 
-      {/* Search Input */}
-      <div className="relative w-full sm:max-w-sm">
-        <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search deals, startups, owners..."
-          className="h-10 w-full rounded-xl border border-border/80 bg-surface pl-9 pr-3 text-xs outline-none focus:border-brand-500"
-        />
-      </div>
+      {/* Controls & Filter Stage Bar */}
+      <div className="flex flex-col gap-3 w-full">
+        {/* Search Input */}
+        <div className="relative w-full">
+          <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search deals, startups, owners..."
+            className="h-10 w-full rounded-xl border border-border/80 bg-surface pl-9 pr-3 text-xs outline-none focus:border-brand-500"
+          />
+        </div>
 
-      {/* Kanban Columns with Touch Snap Horizontal Scroll */}
-      <div className="flex gap-3.5 overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory -mx-3.5 px-3.5 sm:mx-0 sm:px-0">
-        {byStage.map((col) => (
-          <section
-            key={col.stage}
-            className="snap-center min-w-[85vw] sm:min-w-[280px] flex-1 rounded-2xl border border-border/80 bg-background/50 p-3.5 shadow-xs flex flex-col justify-between"
+        {/* Stage Filter Buttons - Mobile Touch Tabs */}
+        <div className="flex flex-wrap gap-1.5 w-full rounded-2xl border border-border/80 bg-background/60 p-2">
+          <button
+            type="button"
+            onClick={() => setActiveStage("all")}
+            className={`rounded-xl px-3 py-1.5 text-xs font-bold transition-all ${
+              activeStage === "all"
+                ? "bg-brand-600 text-white shadow-xs"
+                : "text-muted-foreground hover:text-foreground bg-surface border border-border/60"
+            }`}
           >
-            <div>
-              {/* Column Header */}
-              <div className="mb-3 flex items-center justify-between border-b border-border/60 pb-2">
-                <h2 className="text-xs font-extrabold uppercase tracking-wider text-foreground">{col.stage}</h2>
-                <span className="flex size-5 items-center justify-center rounded-full bg-surface border border-border/80 text-[10px] font-bold text-muted-foreground">
-                  {col.deals.length}
+            All Stages ({DEALS.length})
+          </button>
+          {stages.map((stg) => {
+            const count = DEALS.filter((d) => d.stage === stg).length;
+            const isSel = activeStage === stg;
+            return (
+              <button
+                key={stg}
+                type="button"
+                onClick={() => setActiveStage(stg)}
+                className={`rounded-xl px-3 py-1.5 text-xs font-bold transition-all ${
+                  isSel
+                    ? "bg-brand-600 text-white shadow-xs"
+                    : "text-muted-foreground hover:text-foreground bg-surface border border-border/60"
+                }`}
+              >
+                {stg} ({count})
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Deals List Feed - Vertically Stacked Content */}
+      <div className="flex flex-col gap-4 w-full">
+        {filteredDeals.map((d) => (
+          <div key={d.id} className="glass-card flex flex-col gap-3 transition-all hover:border-brand-300 w-full">
+            <div className="flex flex-col items-start gap-1.5 w-full">
+              <h2 className="text-base sm:text-lg font-bold tracking-tight text-foreground">{d.name}</h2>
+              <div>
+                <span className="inline-block rounded-full bg-brand-50 border border-brand-200 px-2.5 py-0.5 text-[10px] font-bold text-brand-800 uppercase tracking-wider">
+                  {d.stage}
                 </span>
               </div>
+              <p className="text-xs text-muted-foreground mt-0.5">{d.type}</p>
+            </div>
 
-              {/* Deal Cards */}
-              <div className="flex flex-col gap-2.5">
-                {col.deals.map((d) => (
-                  <Link
-                    key={d.id}
-                    to="/deal-rooms"
-                    className="group rounded-xl border border-border/80 bg-surface p-3 shadow-xs transition-all hover:border-brand-400 active:scale-[0.99]"
-                  >
-                    <div className="flex items-start justify-between gap-2">
-                      <p className="text-xs font-bold text-foreground group-hover:text-brand-700 transition-colors">
-                        {d.name}
-                      </p>
-                      <span className="rounded-md bg-brand-50 px-1.5 py-0.5 text-[10px] font-bold text-brand-800 shrink-0">
-                        {d.value}
-                      </span>
-                    </div>
-
-                    <p className="mt-1 text-[10px] font-medium text-muted-foreground">{d.type}</p>
-
-                    <div className="mt-2.5 flex items-center justify-between border-t border-border/60 pt-2 text-[10px]">
-                      <span className="flex items-center gap-1 text-muted-foreground font-medium">
-                        <Users className="size-3" />
-                        <span>{d.owner}</span>
-                      </span>
-                      <span className="flex items-center text-brand-700 font-bold">
-                        <span>Details</span>
-                        <ChevronRight className="size-3" />
-                      </span>
-                    </div>
-
-                    <div className="mt-2 rounded-lg bg-muted/60 px-2 py-1 text-[10px] font-medium text-muted-foreground flex items-center gap-1.5">
-                      <Calendar className="size-3 text-brand-600 shrink-0" />
-                      <span className="truncate">Next: {d.next}</span>
-                    </div>
-                  </Link>
-                ))}
-
-                {col.deals.length === 0 ? (
-                  <div className="rounded-xl border border-dashed border-border/80 p-5 text-center text-xs text-muted-foreground">
-                    No deals in {col.stage}
-                  </div>
-                ) : null}
+            <div className="flex flex-col gap-1.5 w-full">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Deal Specs</p>
+              <div className="rounded-xl border border-border/80 bg-background/80 p-2.5 space-y-1 text-xs font-semibold text-foreground">
+                <p>• Target Capital: <strong className="text-brand-700">{d.value}</strong></p>
+                <p>• Deal Lead / Owner: <strong>{d.owner}</strong></p>
+                <p>• Next Action: <strong className="text-emerald-700">{d.next}</strong></p>
               </div>
             </div>
-          </section>
+
+            <div className="flex flex-col gap-2 pt-2 border-t border-border/60 w-full">
+              <Link to="/deal-rooms" className="btn btn-primary btn-sm min-h-[44px] w-full justify-center">
+                <span>Open Deal Room</span>
+                <ChevronRight className="size-3.5" />
+              </Link>
+            </div>
+          </div>
         ))}
+
+        {filteredDeals.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-border/80 p-8 text-center text-xs text-muted-foreground">
+            No active deals found in this pipeline stage.
+          </div>
+        ) : null}
       </div>
     </div>
   );

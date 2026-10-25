@@ -1,52 +1,59 @@
-import { lazy } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { AppShell } from "./components/layout/app-shell";
 import { Seo } from "./components/seo";
+import { lazyWithRetry } from "./lib/lazyWithRetry";
 
-const Login = lazy(() => import("./pages/Login"));
-const Loader = lazy(() => import("./pages/Loader"));
-const Register = lazy(() => import("./pages/Register"));
-const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
-const ResetPassword = lazy(() => import("./pages/ResetPassword"));
-const TwoFactor = lazy(() => import("./pages/TwoFactor"));
-const VerifyEmail = lazy(() => import("./pages/VerifyEmail"));
-const Dashboard = lazy(() => import("./pages/Dashboard"));
-const DealFlow = lazy(() => import("./pages/DealFlow"));
-const Pipeline = lazy(() => import("./pages/Pipeline"));
-const DealRooms = lazy(() => import("./pages/DealRooms"));
-const Founders = lazy(() => import("./pages/Founders"));
-const Investors = lazy(() => import("./pages/Investors"));
-const Partners = lazy(() => import("./pages/Partners"));
-const Programs = lazy(() => import("./pages/Programs"));
-const Events = lazy(() => import("./pages/Events"));
-const Messages = lazy(() => import("./pages/Messages"));
-const Documents = lazy(() => import("./pages/Documents"));
-const Analytics = lazy(() => import("./pages/Analytics"));
-const Notifications = lazy(() => import("./pages/Notifications"));
-const Settings = lazy(() => import("./pages/Settings"));
-const Search = lazy(() => import("./pages/Search"));
-const AskAIIM = lazy(() => import("./pages/AskAIIM"));
-const Pilots = lazy(() => import("./pages/Pilots"));
-const Evaluations = lazy(() => import("./pages/Evaluations"));
-const Onboarding = lazy(() => import("./pages/Onboarding"));
-const InstitutionalMemory = lazy(() => import("./pages/InstitutionalMemory"));
-const AdminConsole = lazy(() => import("./pages/AdminConsole"));
-const HelpCenter = lazy(() => import("./pages/HelpCenter"));
-const IdeaManagement = lazy(() => import("./pages/IdeaManagement"));
-const TechnologyScouting = lazy(() => import("./pages/TechnologyScouting"));
-const OpenInnovation = lazy(() => import("./pages/OpenInnovation"));
-const RoiTracking = lazy(() => import("./pages/RoiTracking"));
-const StageGates = lazy(() => import("./pages/StageGates"));
-const AuditLog = lazy(() => import("./pages/AuditLog"));
-const Billing = lazy(() => import("./pages/Billing"));
-const Integrations = lazy(() => import("./pages/Integrations"));
-const TrustCenter = lazy(() => import("./pages/TrustCenter"));
-const StatusPage = lazy(() => import("./pages/StatusPage"));
-const ValuationCalculator = lazy(() => import("./pages/ValuationCalculator"));
-const InnovationMap = lazy(() => import("./pages/InnovationMap"));
+// Public Auth Pages
+const Login = lazyWithRetry(() => import("./pages/Login"));
+const Loader = lazyWithRetry(() => import("./pages/Loader"));
+const Register = lazyWithRetry(() => import("./pages/Register"));
+const ForgotPassword = lazyWithRetry(() => import("./pages/ForgotPassword"));
+const ResetPassword = lazyWithRetry(() => import("./pages/ResetPassword"));
+const TwoFactor = lazyWithRetry(() => import("./pages/TwoFactor"));
+const VerifyEmail = lazyWithRetry(() => import("./pages/VerifyEmail"));
+
+// Shared Pages
+const Founders = lazyWithRetry(() => import("./pages/Founders"));
+const Investors = lazyWithRetry(() => import("./pages/Investors"));
+const Partners = lazyWithRetry(() => import("./pages/Partners"));
+const Programs = lazyWithRetry(() => import("./pages/Programs"));
+const Events = lazyWithRetry(() => import("./pages/Events"));
+const Messages = lazyWithRetry(() => import("./pages/Messages"));
+const Documents = lazyWithRetry(() => import("./pages/Documents"));
+const Analytics = lazyWithRetry(() => import("./pages/Analytics"));
+const Notifications = lazyWithRetry(() => import("./pages/Notifications"));
+const Settings = lazyWithRetry(() => import("./pages/Settings"));
+const Search = lazyWithRetry(() => import("./pages/Search"));
+const AskAIIM = lazyWithRetry(() => import("./pages/AskAIIM"));
+const Pilots = lazyWithRetry(() => import("./pages/Pilots"));
+const Evaluations = lazyWithRetry(() => import("./pages/Evaluations"));
+const Onboarding = lazyWithRetry(() => import("./pages/Onboarding"));
+const InstitutionalMemory = lazyWithRetry(() => import("./pages/InstitutionalMemory"));
+const AdminConsole = lazyWithRetry(() => import("./pages/AdminConsole"));
+const HelpCenter = lazyWithRetry(() => import("./pages/HelpCenter"));
+const IdeaManagement = lazyWithRetry(() => import("./pages/IdeaManagement"));
+const TechnologyScouting = lazyWithRetry(() => import("./pages/TechnologyScouting"));
+const OpenInnovation = lazyWithRetry(() => import("./pages/OpenInnovation"));
+const RoiTracking = lazyWithRetry(() => import("./pages/RoiTracking"));
+const StageGates = lazyWithRetry(() => import("./pages/StageGates"));
+const AuditLog = lazyWithRetry(() => import("./pages/AuditLog"));
+const Billing = lazyWithRetry(() => import("./pages/Billing"));
+const Integrations = lazyWithRetry(() => import("./pages/Integrations"));
+const TrustCenter = lazyWithRetry(() => import("./pages/TrustCenter"));
+const StatusPage = lazyWithRetry(() => import("./pages/StatusPage"));
+const ValuationCalculator = lazyWithRetry(() => import("./pages/ValuationCalculator"));
+const InnovationMap = lazyWithRetry(() => import("./pages/InnovationMap"));
+const DealFlow = lazyWithRetry(() => import("./pages/DealFlow"));
+const Pipeline = lazyWithRetry(() => import("./pages/Pipeline"));
+const DealRooms = lazyWithRetry(() => import("./pages/DealRooms"));
+
+// Role-Dedicated Folder Pages
+const FounderDashboard = lazyWithRetry(() => import("./pages/roles/founder/FounderDashboard"));
+const InvestorDashboard = lazyWithRetry(() => import("./pages/roles/investor/InvestorDashboard"));
+const PartnerDashboard = lazyWithRetry(() => import("./pages/roles/partner/PartnerDashboard"));
 
 import { moreNavItems } from "./components/navigation/nav-items";
 
@@ -62,12 +69,21 @@ const PublicOnlyRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-const Page = ({ children, title = "Workspace", description = "AI-powered impact and innovation ecosystem for founders, investors, and partners." }: { children: React.ReactNode; title?: string; description?: string }) => (
+const Page = ({ children, title = "Workspace", description = "AI-powered impact and innovation ecosystem." }: { children: React.ReactNode; title?: string; description?: string }) => (
   <ProtectedRoute>
     <Seo title={title} description={description} />
     <AppShell>{children}</AppShell>
   </ProtectedRoute>
 );
+
+function RoleDashboard() {
+  const { user } = useAuth();
+  const role = user?.role || "founder";
+
+  if (role === "investor") return <InvestorDashboard />;
+  if (role === "partner") return <PartnerDashboard />;
+  return <FounderDashboard />;
+}
 
 export default function App() {
   return (
@@ -88,41 +104,43 @@ export default function App() {
             <Route path="/two-factor" element={<TwoFactor />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
 
-            {/* App (protected) */}
-            <Route path="/dashboard" element={<Page title="Dashboard" description="Role-based dashboard for founders, investors, and partners."><Dashboard /></Page>} />
-            <Route path="/deal-flow" element={<Page title="Deal Flow" description="AI-matched founders, investors, and partners with explainable scores."><DealFlow /></Page>} />
-            <Route path="/pipeline" element={<Page><Pipeline /></Page>} />
-            <Route path="/deal-rooms" element={<Page><DealRooms /></Page>} />
-            <Route path="/valuation" element={<Page title="Valuation Engine" description="Multi-methodology startup valuation engine."><ValuationCalculator /></Page>} />
-            <Route path="/innovation-map" element={<Page title="African Innovation Map" description="Pan-African ecosystem map of active funding rounds and hubs."><InnovationMap /></Page>} />
-            <Route path="/founders" element={<Page><Founders /></Page>} />
-            <Route path="/investors" element={<Page><Investors /></Page>} />
-            <Route path="/partners" element={<Page><Partners /></Page>} />
-            <Route path="/programs" element={<Page><Programs /></Page>} />
-            <Route path="/events" element={<Page><Events /></Page>} />
-            <Route path="/messages" element={<Page><Messages /></Page>} />
-            <Route path="/documents" element={<Page><Documents /></Page>} />
-            <Route path="/analytics" element={<Page><Analytics /></Page>} />
-            <Route path="/notifications" element={<Page><Notifications /></Page>} />
-            <Route path="/settings" element={<Page><Settings /></Page>} />
-            <Route path="/search" element={<Page><Search /></Page>} />
-            <Route path="/ask-aiim" element={<Page><AskAIIM /></Page>} />
-            <Route path="/pilots" element={<Page><Pilots /></Page>} />
-            <Route path="/evaluations" element={<Page><Evaluations /></Page>} />
-            <Route path="/onboarding" element={<Page><Onboarding /></Page>} />
-            <Route path="/institutional-memory" element={<Page><InstitutionalMemory /></Page>} />
-            <Route path="/admin" element={<Page><AdminConsole /></Page>} />
-            <Route path="/help" element={<Page><HelpCenter /></Page>} />
-            <Route path="/ideas" element={<Page><IdeaManagement /></Page>} />
-            <Route path="/scouting" element={<Page><TechnologyScouting /></Page>} />
-            <Route path="/challenges" element={<Page><OpenInnovation /></Page>} />
-            <Route path="/roi" element={<Page><RoiTracking /></Page>} />
-            <Route path="/stage-gates" element={<Page><StageGates /></Page>} />
-            <Route path="/audit-log" element={<Page><AuditLog /></Page>} />
-            <Route path="/billing" element={<Page><Billing /></Page>} />
-            <Route path="/integrations" element={<Page><Integrations /></Page>} />
-            <Route path="/trust" element={<Page><TrustCenter /></Page>} />
-            <Route path="/status" element={<Page><StatusPage /></Page>} />
+            {/* Role-Aware Dashboard Router */}
+            <Route path="/dashboard" element={<Page title="Dashboard"><RoleDashboard /></Page>} />
+
+            {/* Primary Workspace Routes */}
+            <Route path="/deal-flow" element={<Page title="Deal Flow"><DealFlow /></Page>} />
+            <Route path="/pipeline" element={<Page title="Pipeline"><Pipeline /></Page>} />
+            <Route path="/deal-rooms" element={<Page title="Deal Rooms"><DealRooms /></Page>} />
+            <Route path="/valuation" element={<Page title="Valuation Engine"><ValuationCalculator /></Page>} />
+            <Route path="/innovation-map" element={<Page title="African Innovation Map"><InnovationMap /></Page>} />
+            <Route path="/founders" element={<Page title="Founders"><Founders /></Page>} />
+            <Route path="/investors" element={<Page title="Investors"><Investors /></Page>} />
+            <Route path="/partners" element={<Page title="Partners"><Partners /></Page>} />
+            <Route path="/programs" element={<Page title="Programs"><Programs /></Page>} />
+            <Route path="/events" element={<Page title="Events"><Events /></Page>} />
+            <Route path="/messages" element={<Page title="Messages"><Messages /></Page>} />
+            <Route path="/documents" element={<Page title="Documents"><Documents /></Page>} />
+            <Route path="/analytics" element={<Page title="Analytics"><Analytics /></Page>} />
+            <Route path="/notifications" element={<Page title="Notifications"><Notifications /></Page>} />
+            <Route path="/settings" element={<Page title="Settings"><Settings /></Page>} />
+            <Route path="/search" element={<Page title="Search"><Search /></Page>} />
+            <Route path="/ask-aiim" element={<Page title="AIIM AI"><AskAIIM /></Page>} />
+            <Route path="/pilots" element={<Page title="Pilots"><Pilots /></Page>} />
+            <Route path="/evaluations" element={<Page title="Evaluations"><Evaluations /></Page>} />
+            <Route path="/onboarding" element={<Page title="Onboarding"><Onboarding /></Page>} />
+            <Route path="/institutional-memory" element={<Page title="Institutional Memory"><InstitutionalMemory /></Page>} />
+            <Route path="/admin" element={<Page title="Admin Console"><AdminConsole /></Page>} />
+            <Route path="/help" element={<Page title="Help Center"><HelpCenter /></Page>} />
+            <Route path="/ideas" element={<Page title="Idea Management"><IdeaManagement /></Page>} />
+            <Route path="/scouting" element={<Page title="Technology Scouting"><TechnologyScouting /></Page>} />
+            <Route path="/challenges" element={<Page title="Open Innovation"><OpenInnovation /></Page>} />
+            <Route path="/roi" element={<Page title="ROI Tracking"><RoiTracking /></Page>} />
+            <Route path="/stage-gates" element={<Page title="Stage-Gate Governance"><StageGates /></Page>} />
+            <Route path="/audit-log" element={<Page title="Audit Log"><AuditLog /></Page>} />
+            <Route path="/billing" element={<Page title="Billing"><Billing /></Page>} />
+            <Route path="/integrations" element={<Page title="Integrations"><Integrations /></Page>} />
+            <Route path="/trust" element={<Page title="Trust Center"><TrustCenter /></Page>} />
+            <Route path="/status" element={<Page title="System Health"><StatusPage /></Page>} />
 
             <Route path="/more" element={<Page>
               <div className="grid gap-3 sm:grid-cols-2">
