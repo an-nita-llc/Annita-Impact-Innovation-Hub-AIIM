@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import {
   ArrowUp,
   Bot,
-  ChevronRight,
   MessageSquare,
   Paperclip,
   Plus,
@@ -14,13 +13,6 @@ import {
 import { LogoMark } from "@/components/brand/logo";
 
 type Message = { id: string; role: "user" | "assistant"; text: string; time: string };
-
-const INITIAL_SUGGESTIONS = [
-  "Summarize Solara Climate OS pitch deck & key traction metrics",
-  "Which VC funds match my $750K Seed raise in West Africa?",
-  "Draft a due diligence checklist for an early-stage B2B startup",
-  "Calculate valuation using Berkus Method for pre-seed startup",
-];
 
 export default function AskAIIM() {
   const [messages, setMessages] = useState<Message[]>([
@@ -80,11 +72,11 @@ export default function AskAIIM() {
   }
 
   return (
-    <div className="flex h-[calc(100vh-3.5rem)] md:h-[calc(100vh-4rem)] w-full flex-col bg-surface border-0 shadow-none overflow-hidden">
-      {/* Full Page ChatGPT Style Layout */}
-      <div className="flex h-full w-full">
+    <div className="flex h-[calc(100dvh-3.5rem)] sm:h-[calc(100vh-4rem)] min-h-0 w-full flex-col bg-surface border-0 shadow-none overflow-hidden">
+      {/* Full Page Stable ChatGPT Style Layout */}
+      <div className="flex h-full w-full min-h-0">
         {/* Left Sidebar Threads Drawer (Desktop & Tablet) */}
-        <aside className="hidden md:flex w-64 flex-col border-r border-border/80 bg-background/40 p-3 justify-between shrink-0">
+        <aside className="hidden md:flex w-64 flex-col border-r border-border/80 bg-background/50 p-3 justify-between shrink-0">
           <div>
             <button
               type="button"
@@ -126,7 +118,7 @@ export default function AskAIIM() {
         </aside>
 
         {/* Main Full Page Conversation Stream Panel */}
-        <main className="flex flex-1 flex-col h-full bg-surface justify-between min-w-0">
+        <main className="flex flex-1 flex-col h-full min-h-0 bg-surface justify-between min-w-0">
           {/* Top Bar Header */}
           <header className="flex items-center justify-between border-b border-border/80 px-4 py-3 bg-surface shrink-0">
             <div className="flex items-center gap-2">
@@ -151,8 +143,8 @@ export default function AskAIIM() {
             </button>
           </header>
 
-          {/* Scrollable Full-Page Conversation Stream */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
+          {/* Scrollable Stable Conversation Stream */}
+          <div className="flex-1 overflow-y-auto min-h-0 p-4 sm:p-6 space-y-6 scrollbar-thin">
             <div className="max-w-3xl mx-auto space-y-6">
               {messages.map((m) => {
                 const isAI = m.role === "assistant";
@@ -169,12 +161,11 @@ export default function AskAIIM() {
                     )}
 
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1">
+                      <div className="flex flex-col gap-1 text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1">
                         <span className={isAI ? "text-brand-700 font-extrabold" : "text-foreground"}>
                           {isAI ? "AIIM AI" : "You"}
                         </span>
-                        <span>•</span>
-                        <span>{m.time}</span>
+                        <span className="text-[9px] text-muted-foreground">{m.time}</span>
                       </div>
 
                       <div className={`p-4 rounded-2xl text-xs sm:text-sm leading-relaxed ${
@@ -203,25 +194,9 @@ export default function AskAIIM() {
             </div>
           </div>
 
-          {/* Bottom Centered Chat Prompt Input Box */}
-          <div className="p-3 sm:p-4 border-t border-border/80 bg-background/50 shrink-0">
-            <div className="max-w-3xl mx-auto space-y-3">
-              {/* Prompt Suggestions Pills */}
-              {messages.length <= 2 ? (
-                <div className="flex flex-wrap gap-2">
-                  {INITIAL_SUGGESTIONS.map((s) => (
-                    <button
-                      key={s}
-                      type="button"
-                      onClick={() => handleSend(s)}
-                      className="rounded-xl border border-border/80 bg-surface px-3 py-1.5 text-[11px] font-semibold text-muted-foreground hover:border-brand-300 hover:text-foreground transition-all active:scale-[0.98]"
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
-              ) : null}
-
+          {/* Bottom Fixed Pinned Chat Input Container */}
+          <div className="p-3 sm:p-4 border-t border-border/80 bg-background/90 backdrop-blur-md shrink-0">
+            <div className="max-w-3xl mx-auto space-y-2">
               {/* Chat Input Field Box */}
               <div className="relative flex items-center rounded-2xl border border-border/80 bg-surface shadow-xs focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-500/10">
                 <button
