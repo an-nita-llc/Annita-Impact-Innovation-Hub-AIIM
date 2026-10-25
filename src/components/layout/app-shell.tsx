@@ -136,40 +136,6 @@ const ROLE_NAV = {
       { href: "/settings", label: "Settings", icon: Settings },
     ],
   },
-  "school-admin": {
-    main: [
-      { href: "/dashboard", label: "Dashboard", icon: Home },
-      { href: "/programs", label: "Incubator Cohorts", icon: Rocket },
-      { href: "/founders", label: "Student Founders", icon: Users },
-      { href: "/innovation-map", label: "Innovation Map", icon: Globe },
-      { href: "/ask-aiim", label: "AIIM AI", icon: Sparkles },
-    ],
-    ecosystem: [
-      { href: "/events", label: "Demo Days", icon: CalendarClock },
-      { href: "/documents", label: "Research IP Docs", icon: FolderOpen },
-    ],
-    tools: [
-      { href: "/messages", label: "Messages", icon: MessageSquare },
-      { href: "/settings", label: "Settings", icon: Settings },
-    ],
-  },
-  admin: {
-    main: [
-      { href: "/admin", label: "Admin Console", icon: Shield },
-      { href: "/audit-log", label: "Audit Log", icon: History },
-      { href: "/billing", label: "Billing & Metering", icon: CreditCard },
-      { href: "/integrations", label: "Integrations & API", icon: Zap },
-      { href: "/status", label: "System Health", icon: Activity },
-    ],
-    ecosystem: [
-      { href: "/trust", label: "Trust Center", icon: ShieldCheck },
-      { href: "/analytics", label: "Platform Analytics", icon: BarChart3 },
-    ],
-    tools: [
-      { href: "/settings", label: "Settings", icon: Settings },
-      { href: "/help", label: "Help Center", icon: BookOpen },
-    ],
-  },
 };
 
 export function AppShell({ children }: { children: React.ReactNode }) {

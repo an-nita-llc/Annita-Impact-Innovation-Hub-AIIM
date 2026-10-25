@@ -3,8 +3,8 @@ import { createContext, useContext, useState } from 'react';
 export interface User {
   name: string;
   email: string;
-  role: 'founder' | 'member' | 'pioneer' | 'investor' | 'partner' | 'admin' | 'school-admin';
-  tier: 'member' | 'pioneer';
+  role: 'founder' | 'investor' | 'partner';
+  tier?: 'member' | 'pioneer';
   phone?: string;
   country?: string;
   city?: string;

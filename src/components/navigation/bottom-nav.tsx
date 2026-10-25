@@ -1,17 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import {
-  Activity,
   BarChart3,
   Briefcase,
   Calculator,
-  CreditCard,
   Globe,
-  History,
   Home,
   Rocket,
   Search,
-  Shield,
   Sparkles,
   TrendingUp,
   Users,
@@ -46,20 +42,6 @@ const ROLE_BOTTOM_NAV: Record<string, BottomNavItem[]> = {
     { href: "/ask-aiim", label: "AIIM AI", icon: Sparkles, isAiCenter: true },
     { href: "/pilots", label: "Pilots", icon: Zap },
     { href: "/scouting", label: "Scouting", icon: Search },
-  ],
-  "school-admin": [
-    { href: "/dashboard", label: "Home", icon: Home },
-    { href: "/programs", label: "Cohorts", icon: Rocket },
-    { href: "/ask-aiim", label: "AIIM AI", icon: Sparkles, isAiCenter: true },
-    { href: "/founders", label: "Founders", icon: Users },
-    { href: "/innovation-map", label: "Map", icon: Globe },
-  ],
-  admin: [
-    { href: "/admin", label: "Admin", icon: Shield },
-    { href: "/audit-log", label: "Audit Log", icon: History },
-    { href: "/ask-aiim", label: "AIIM AI", icon: Sparkles, isAiCenter: true },
-    { href: "/billing", label: "Billing", icon: CreditCard },
-    { href: "/status", label: "Health", icon: Activity },
   ],
 };
 

@@ -2,24 +2,18 @@ import { Link, useLocation } from "react-router-dom";
 import { LogoMark } from "@/components/brand/logo";
 import { useAuth } from "@/context/AuthContext";
 import {
-  Activity,
   BarChart3,
-  BookOpen,
   Briefcase,
   Calculator,
   CalendarClock,
-  CreditCard,
   FolderOpen,
   Globe,
-  History,
   Home,
   LogOut,
   MessageSquare,
   Rocket,
   Search,
   Settings,
-  Shield,
-  ShieldCheck,
   Sparkles,
   TrendingUp,
   Users,
@@ -90,40 +84,6 @@ const ROLE_NAV = {
       { href: "/messages", label: "Messages", icon: MessageSquare },
       { href: "/documents", label: "Documents", icon: FolderOpen },
       { href: "/settings", label: "Settings", icon: Settings },
-    ],
-  },
-  "school-admin": {
-    main: [
-      { href: "/dashboard", label: "Dashboard", icon: Home },
-      { href: "/programs", label: "Incubator Cohorts", icon: Rocket },
-      { href: "/founders", label: "Student Founders", icon: Users },
-      { href: "/innovation-map", label: "Innovation Map", icon: Globe },
-      { href: "/ask-aiim", label: "AIIM AI", icon: Sparkles, badge: "AI" },
-    ],
-    ecosystem: [
-      { href: "/events", label: "Demo Days", icon: CalendarClock },
-      { href: "/documents", label: "Research IP Docs", icon: FolderOpen },
-    ],
-    tools: [
-      { href: "/messages", label: "Messages", icon: MessageSquare },
-      { href: "/settings", label: "Settings", icon: Settings },
-    ],
-  },
-  admin: {
-    main: [
-      { href: "/admin", label: "Admin Console", icon: Shield },
-      { href: "/audit-log", label: "Audit Log", icon: History },
-      { href: "/billing", label: "Billing & Metering", icon: CreditCard },
-      { href: "/integrations", label: "Integrations & API", icon: Zap },
-      { href: "/status", label: "System Health", icon: Activity },
-    ],
-    ecosystem: [
-      { href: "/trust", label: "Trust Center", icon: ShieldCheck },
-      { href: "/analytics", label: "Platform Analytics", icon: BarChart3 },
-    ],
-    tools: [
-      { href: "/settings", label: "Settings", icon: Settings },
-      { href: "/help", label: "Help Center", icon: BookOpen },
     ],
   },
 };
