@@ -1,7 +1,7 @@
 /**
  * AIIM AI Gateway & Gemini Production Integration
- * Supports real Gemini API calls via VITE_GEMINI_API_KEY or VITE_OPENROUTER_API_KEY.
- * Falls back gracefully to structured domain intelligence if keys are unconfigured.
+ * Checks for live VITE_GEMINI_API_KEY or VITE_OPENROUTER_API_KEY.
+ * Discloses connection status to the user and provides fallback intelligence if unconfigured.
  */
 
 const GEMINI_API_KEY =
@@ -10,8 +10,36 @@ const GEMINI_API_KEY =
 const OPENROUTER_API_KEY =
   (typeof import.meta !== "undefined" && import.meta.env?.VITE_OPENROUTER_API_KEY) || "";
 
+export type AIConnectionStatus = {
+  isConnected: boolean;
+  provider: "openrouter" | "gemini" | "demo";
+  label: string;
+};
+
+export function getAIConnectionStatus(): AIConnectionStatus {
+  if (OPENROUTER_API_KEY) {
+    return {
+      isConnected: true,
+      provider: "openrouter",
+      label: "🟢 Live OpenRouter Gateway (Gemini 2.5)",
+    };
+  }
+  if (GEMINI_API_KEY) {
+    return {
+      isConnected: true,
+      provider: "gemini",
+      label: "🟢 Live Google Gemini API Connected",
+    };
+  }
+  return {
+    isConnected: false,
+    provider: "demo",
+    label: "🟠 Demo Gateway Mode • Add VITE_GEMINI_API_KEY for Live API",
+  };
+}
+
 export async function queryAIIM(prompt: string, context: string = "general"): Promise<string> {
-  // 1. Try real OpenRouter / Gemini API if key is set
+  // 1. Try OpenRouter API if key is set
   if (OPENROUTER_API_KEY) {
     try {
       const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -41,10 +69,11 @@ export async function queryAIIM(prompt: string, context: string = "general"): Pr
         if (text) return text;
       }
     } catch (err) {
-      console.warn("OpenRouter API call failed, falling back to local domain gateway:", err);
+      console.warn("OpenRouter API call failed, falling back to local gateway:", err);
     }
   }
 
+  // 2. Try Gemini API if key is set
   if (GEMINI_API_KEY) {
     try {
       const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
@@ -70,12 +99,13 @@ export async function queryAIIM(prompt: string, context: string = "general"): Pr
         if (text) return text;
       }
     } catch (err) {
-      console.warn("Gemini API call failed, falling back to local domain gateway:", err);
+      console.warn("Gemini API call failed, falling back to local gateway:", err);
     }
   }
 
-  // 2. Production Domain Intelligence Gateway Fallback
-  return generateDomainResponse(prompt, context);
+  // 3. Fallback to Demo Gateway with Disclosed Status Note
+  const baseResponse = generateDomainResponse(prompt, context);
+  return `${baseResponse}\n\n---\n*ℹ️ [AIIM AI Status: Operating in Demo Gateway Mode. Add VITE_GEMINI_API_KEY to environment variables to enable live Gemini API inference.]*`;
 }
 
 function generateDomainResponse(prompt: string, context: string): string {

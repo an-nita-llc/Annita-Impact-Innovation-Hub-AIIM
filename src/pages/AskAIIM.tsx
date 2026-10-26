@@ -10,16 +10,18 @@ import {
   User,
 } from "lucide-react";
 import { LogoMark } from "@/components/brand/logo";
-import { queryAIIM } from "@/services/gemini";
+import { getAIConnectionStatus, queryAIIM } from "@/services/gemini";
 
 type Message = { id: string; role: "user" | "assistant"; text: string; time: string };
 
 export default function AskAIIM() {
+  const status = getAIConnectionStatus();
+
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "m1",
       role: "assistant",
-      text: "Hello! I am **AIIM AI**, your ecosystem intelligence assistant. I analyze pitch decks, fund mandates, thesis scores, and due diligence archives across West, East, and Southern Africa. How can I assist your venture or fund today?",
+      text: `Hello! I am **AIIM AI**, your ecosystem intelligence assistant. I analyze pitch decks, fund mandates, thesis scores, and due diligence archives across Sub-Saharan Africa.\n\n*${status.label}*`,
       time: "Just now",
     },
   ]);
@@ -47,7 +49,6 @@ export default function AskAIIM() {
     setInput("");
     setIsTyping(true);
 
-    // Production AI Gateway Call
     const responseText = await queryAIIM(content, "Ecosystem Intelligence Assistant");
 
     setIsTyping(false);
@@ -65,7 +66,7 @@ export default function AskAIIM() {
       {
         id: `m-${Date.now()}`,
         role: "assistant",
-        text: "Started new conversation with **AIIM AI**. What would you like to analyze or search?",
+        text: `Started new conversation with **AIIM AI**.\n\n*${status.label}*`,
         time: "Just now",
       },
     ]);
@@ -75,7 +76,7 @@ export default function AskAIIM() {
     <div className="flex h-[calc(100dvh-3.5rem)] sm:h-[calc(100vh-4rem)] min-h-0 w-full flex-col bg-surface border-0 shadow-none overflow-hidden">
       {/* Full Page Stable ChatGPT Style Layout */}
       <div className="flex h-full w-full min-h-0">
-        {/* Left Sidebar Threads Drawer (Desktop & Tablet) */}
+        {/* Left Sidebar Threads Drawer */}
         <aside className="hidden md:flex w-64 flex-col border-r border-border/80 bg-background/50 p-3 justify-between shrink-0">
           <div>
             <button
@@ -117,10 +118,10 @@ export default function AskAIIM() {
           </div>
         </aside>
 
-        {/* Main Full Page Conversation Stream Panel */}
+        {/* Main Conversation Stream Panel */}
         <main className="flex flex-1 flex-col h-full min-h-0 bg-surface justify-between min-w-0">
-          {/* Top Bar Header */}
-          <header className="flex items-center justify-between border-b border-border/80 px-4 py-3 bg-surface shrink-0">
+          {/* Top Bar Header with AI Status Badge */}
+          <header className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-border/80 px-4 py-3 bg-surface shrink-0 gap-2">
             <div className="flex items-center gap-2">
               <LogoMark size="sm" full={false} />
               <div>
@@ -133,17 +134,30 @@ export default function AskAIIM() {
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={handleNewChat}
-              className="md:hidden btn btn-secondary btn-sm min-h-[36px] text-xs font-bold gap-1"
-            >
-              <Plus className="size-3.5" />
-              <span>New</span>
-            </button>
+            {/* AI Status Badge */}
+            <div className="flex items-center justify-between sm:justify-end gap-2">
+              <span
+                className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
+                  status.isConnected
+                    ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                    : "bg-amber-50 text-amber-800 border border-amber-200"
+                }`}
+              >
+                {status.label}
+              </span>
+
+              <button
+                type="button"
+                onClick={handleNewChat}
+                className="md:hidden btn btn-secondary btn-sm min-h-[36px] text-xs font-bold gap-1"
+              >
+                <Plus className="size-3.5" />
+                <span>New</span>
+              </button>
+            </div>
           </header>
 
-          {/* Scrollable Stable Conversation Stream */}
+          {/* Scrollable Conversation Stream */}
           <div className="flex-1 overflow-y-auto min-h-0 p-4 sm:p-6 space-y-6 scrollbar-thin">
             <div className="max-w-3xl mx-auto space-y-6">
               {messages.map((m) => {
@@ -194,10 +208,9 @@ export default function AskAIIM() {
             </div>
           </div>
 
-          {/* Bottom Fixed Pinned Chat Input Container */}
+          {/* Bottom Chat Prompt Input */}
           <div className="p-3 sm:p-4 border-t border-border/80 bg-background/90 backdrop-blur-md shrink-0">
             <div className="max-w-3xl mx-auto space-y-2">
-              {/* Chat Input Field Box */}
               <div className="relative flex items-center rounded-2xl border border-border/80 bg-surface shadow-xs focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-500/10">
                 <button
                   type="button"
